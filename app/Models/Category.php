@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
@@ -46,5 +47,20 @@ class Category extends Model
     protected $casts = [
         'meta' => 'array',
     ];
+
+    /**
+     * Get the post relationship.
+     *
+     * @return BelongsToMany
+     */
+    public function post(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+            'posts_category',
+            'category_id',
+            'post_id'
+        );
+    }
 
 }

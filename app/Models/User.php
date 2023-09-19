@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -59,4 +60,35 @@ class User extends Authenticatable
      * @var string
      */
     protected $keyType = 'string';
+    
+    /**
+     * Get the posts relationship.
+     *
+     * @return HasMany
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the tags relationship.
+     *
+     * @return HasMany
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    /**
+     * Get the topics relationship.
+     *
+     * @return HasMany
+     */
+    public function category(): HasMany
+    {
+        return $this->hasMany(Category::class);
+    }
+
 }

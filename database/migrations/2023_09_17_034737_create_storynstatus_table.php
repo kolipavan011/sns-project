@@ -117,5 +117,7 @@ return new class extends Migration
         Schema::dropIfExists('tags');
         Schema::dropIfExists('files');
         Schema::dropIfExists('file_manager');
+        Schema::dropIfExists('posts_tags');
+        Schema::dropIfExists('posts_category');
     }
 };

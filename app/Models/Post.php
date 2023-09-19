@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
@@ -47,4 +48,34 @@ class Post extends Model
         'published_at' => 'datetime:Y-m-d',
         'meta' => 'array',
     ];
+
+    /**
+     * Get the tag relationship.
+     *
+     * @return BelongsToMany
+     */
+    public function tag(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Tag::class,
+            'posts_tags',
+            'post_id',
+            'tag_id'
+        );
+    }
+
+    /**
+     * Get the tag relationship.
+     *
+     * @return BelongsToMany
+     */
+    public function category(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Category::class,
+            'posts_category',
+            'post_id',
+            'category_id'
+        );
+    }
 }
