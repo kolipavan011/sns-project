@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 class ViewController extends Controller
 {
-    function index() {
-        // code
+    function index()
+    {
+        return view('vidmin');
     }
 
-    public function home() {
+    public function home()
+    {
         return response('welcome');
     }
 }
