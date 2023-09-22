@@ -6,6 +6,7 @@ import DashBoard from '../view/Dashboard.vue';
 import PostsList from '../view/PostsList.vue';
 import TagsList from '../view/TagsList.vue';
 import CategoryList from '../view/CategoryList.vue';
+import MediaList from '../view/MediaList.vue';
 
 
 // 2. Define some routes
@@ -40,7 +41,7 @@ const routes = [
   {
     path: '/media',
     name : 'media',
-    component: PostsList,
+    component: MediaList,
   },
   {
     path: '/user',

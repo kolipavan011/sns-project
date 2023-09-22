@@ -28,3 +28,7 @@ textarea:focus {
 .page__title {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.card:hover .media__delete {
+    display: block !important;
+}
