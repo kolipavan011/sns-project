@@ -9,9 +9,7 @@
 </head>
 
 <body class="body">
-    <div id="app">
-        <router-view></router-view>
-    </div>
+    <div id="app"></div>
     @vite('resources/js/app.js')
 </body>
 

@@ -3,9 +3,10 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+import './bootstrap';
 import { createApp } from 'vue';
 import router from './router';
+import App from './view/App.vue';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,6 +14,6 @@ import router from './router';
  * to use in your application's views. An example is included for you.
  */
 
-const app = createApp({})
+const app = createApp(App)
     .use(router)
     .mount('#app');

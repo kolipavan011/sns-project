@@ -1,39 +1,30 @@
 <template>
-    <div class="page-header">
-        <header class="border-bottom bg-white">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand text-uppercase fw-bold">
+                <h2 class="mb-0 fw-bolder">{{ title }}</h2>
+            </a>
 
-                    <a class="navbar-brand" href="#">Vidmin</a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Features</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Pricing</a>
-                            </li>
-                        </ul>
+            <div class="dropdown">
+                <a class="nav-link" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div style="width: 32px;height: 32px;" class="bg-primary rounded-circle">
+                        <p class="text-uppercase fs-4 text-white text-center fw-bolder">p</p>
                     </div>
-                </div>
-            </nav>
-        </header>
-    </div>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </template>
 
 <script>
 export default {
-    name: 'page-header',
-    mounted() {
-        console.log('Component mounted.')
-    }
+    name: 'PageHeader',
+    props: [ 'title' ]
 }
 </script>

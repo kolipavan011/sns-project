@@ -1,0 +1,51 @@
+<template>
+    <div class="app-container container-fluid" style="min-height: 100vh;">
+        <div class="row">
+            <aside class="app-sidebar col-sm-3 border-end">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+                  <div class="container-fluid">
+                    <a class="navbar-brand text-uppercase">Vidmin</a>
+                  </div>
+                </nav>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0" v-for="item in list" :key="item">
+                        <router-link to="/tags" class="text-decoration-none text-muted text-uppercase">{{item}}</router-link>
+                    </li>
+                </ul>
+            </aside>
+            <div class="app-main col-sm-9">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    name: 'app-container',
+    data() {
+        return {
+            list:['dashboard','post','media','category','tags','users','setting']
+        }
+    },
+}
+</script>
+<style>
+.app-sidebar {
+    min-height: 100vh;
+    @media screen {
+        @media (max-width: 576px) {
+            min-height: auto;
+            display: none;
+         }
+    }
+}
+
+.app-main {
+    min-height: 100vh;
+    @media screen {
+        @media (max-width: 576px) {
+            min-height: auto;
+         }
+    }
+}
+</style>
