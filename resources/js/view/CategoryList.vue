@@ -1,7 +1,7 @@
 <template>
     <PageMain>
         <template v-slot:head>
-            <PageHeader title="Posts"></PageHeader>
+            <PageHeader title="Category"></PageHeader>
         </template>
         <template v-slot:content>
             <!-- content -->

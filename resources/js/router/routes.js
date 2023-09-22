@@ -4,6 +4,8 @@
 
 import DashBoard from '../view/Dashboard.vue';
 import PostsList from '../view/PostsList.vue';
+import TagsList from '../view/TagsList.vue';
+import CategoryList from '../view/CategoryList.vue';
 
 
 // 2. Define some routes
@@ -17,12 +19,37 @@ const routes = [
   },
   {
     path: '/dash',
-    name : 'dash',
+    name : 'dashboard',
     component: DashBoard,
   },
   {
     path: '/tags',
     name : 'tags',
+    component: TagsList,
+  },
+  {
+    path: '/posts',
+    name : 'posts',
+    component: PostsList,
+  },
+  {
+    path: '/category',
+    name : 'category',
+    component: CategoryList,
+  },
+  {
+    path: '/media',
+    name : 'media',
+    component: PostsList,
+  },
+  {
+    path: '/user',
+    name : 'users',
+    component: PostsList,
+  },
+  {
+    path: '/setting',
+    name : 'setting',
     component: PostsList,
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },

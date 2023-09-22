@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand text-uppercase fw-bold">
-                <h2 class="mb-0 fw-bolder">{{ title }}</h2>
+                <h2 class="mb-0 fw-bolder page__title">{{ title }}</h2>
             </a>
 
             <div class="dropdown">
