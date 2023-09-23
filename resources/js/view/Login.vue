@@ -10,16 +10,16 @@
                     <div class="card-body">
                         <form @submit.prevent="login">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input v-model="data.email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <label for="loginEmail" class="form-label">Email address</label>
+                                <input v-model="data.email" type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp">
                                 <div id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input v-model="data.password" type="password" class="form-control" id="exampleInputPassword1">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <input v-model="data.password" type="password" class="form-control" id="loginPassword">
                             </div>
                             <div class="mb-3 form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <input v-model="data.remember" type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -45,7 +45,15 @@ export default {
     },
     methods: {
         login() {
-            console.log(this.data);    
+            this.request().post('/login', this.data)
+                .then(data => {
+                    this.$toast.success('Logged In ..!')
+                    document.head.querySelector('meta[name="csrf-token"]').content = data._token;
+                    console.log(resp);
+                })
+                .catch(err => {
+                    this.$toast.error(err.message);
+                });  
         }
     },  
     mounted() {

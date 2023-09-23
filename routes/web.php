@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
 
@@ -14,9 +15,15 @@ use App\Http\Controllers\ViewController;
 |
 */
 
-Route::get('/', [ViewController::class,'home']);
+Route::get('/', [ViewController::class, 'home']);
 
-Route::prefix('vidmin')->group(function () {
+Route::prefix('vidmin/')->group(function () {
+
+   Route::namespace('Api')->prefix('api')->group(function () {
+      // Auth Controller
+      Route::post('login', [LoginController::class, 'store']);
+   });
+
    // Catch-all route...
-   Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('vidmin'); 
+   Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('vidmin');
 });

@@ -3,12 +3,13 @@ import axios from 'axios';
 export default {
     methods: {
         request() {
-            let instance = axios.create();
+            let instance = axios.create(),
+                endpoint = '/vidmin/api/';
 
             instance.defaults.headers.common['X-CSRF-TOKEN'] =
                 document.head.querySelector('meta[name="csrf-token"]').content;
 
-            instance.defaults.baseURL = '/vidmin/';
+            instance.defaults.baseURL = endpoint;
 
             const requestHandler = (request) => {
                 // Add any request modifiers...
@@ -17,20 +18,12 @@ export default {
 
             const errorHandler = (error) => {
                 // Add any error modifiers...
-                switch (error.response.status) {
-                    case 401:
-                    case 405:
-                        return Promise.reject({ ...error });
-                    default:
-                        break;
-                }
-
-                return Promise.reject({ ...error });
+                return Promise.reject(error.response.data);
             };
 
             const successHandler = (response) => {
                 // Add any response modifiers...
-                return response;
+                return response.data;
             };
 
             instance.interceptors.request.use((request) => requestHandler(request));
