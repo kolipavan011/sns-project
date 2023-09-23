@@ -19,9 +19,14 @@ Route::get('/', [ViewController::class, 'home']);
 
 Route::prefix('vidmin/')->group(function () {
 
-   Route::namespace('Api')->prefix('api')->group(function () {
-      // Auth Controller
+   // Auth Controller
+   Route::prefix('auth')->group(function () {
       Route::post('login', [LoginController::class, 'store']);
+      Route::get('user', [LoginController::class, 'index']);
+      Route::get('logout', [LoginController::class, 'destroy']);
+   });
+
+   Route::namespace('Api')->prefix('api')->group(function () {
    });
 
    // Catch-all route...

@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@meforma/vue-toaster": "^1.3.0",
+        "vue-auth3": "^1.0.10",
         "vue-router": "^4.2.4"
     }
 }

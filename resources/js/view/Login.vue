@@ -44,22 +44,31 @@ export default {
         }
     },
     methods: {
-        login() {
+        login2() {
             this.request().post('/login', this.data)
                 .then(data => {
                     this.$toast.success('Logged In ..!')
-                    document.head.querySelector('meta[name="csrf-token"]').content = data._token;
                     console.log(resp);
                 })
                 .catch(err => {
                     this.$toast.error(err.message);
                 });  
+        },
+        login() {
+            this.$auth.login({data: this.data})
+                .then(resp => {
+                    this.$toast.success('Logged in ..!')
+                })
+                .catch(err => {
+                    this.$toast.error('Try again ..!')
+                });
         }
     },  
     mounted() {
         document.body.setAttribute('data-sidebar', 'true');
     },
     unmounted() {
+        console.log(this.$auth.user());
         document.body.removeAttribute('data-sidebar');
     }
 }

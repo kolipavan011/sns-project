@@ -9,6 +9,7 @@ import Toaster from "@meforma/vue-toaster";
 import router from './router';
 import request from './mixins/request';
 import App from './view/App.vue';
+import Auth from './Auth';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -18,6 +19,7 @@ import App from './view/App.vue';
 
 const app = createApp(App)
     .use(router)
-    .use(Toaster, { duration: 3000, position: 'top'})
+    .use(Auth)
+    .use(Toaster, { duration: 2000, position: 'top'})
     .mixin(request)
     .mount('#app');

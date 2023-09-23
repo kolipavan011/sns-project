@@ -10,10 +10,29 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
+    /**
+     * Get Authenticated User
+     *
+     * @return JsonResponse
+     */
+    public function index(): JsonResponse
+    {
+        if (Auth::check()) {
+            $auth = Auth::user();
+            return response()->json([
+                'id' => $auth->id,
+                'email' => $auth->email,
+                'name' => $auth->name,
+            ]);
+        }
+
+        return response()->json(['massage' => 'Unauthanticated User'], 401);
+    }
     /**
      * Get user logged in via email and password
      * 
-     * @return void
+     * @return JsonResponse
      */
     public function store(LoginRequest $request): JsonResponse
     {
@@ -23,8 +42,22 @@ class LoginController extends Controller
 
         return response()->json([
             'massage' => 'Logged in ..!',
-            'user' => Auth::user(),
-            '_token' => csrf_token()
         ]);
+    }
+
+    /**
+     * Logout user session
+     * 
+     * @return JsonResponse
+     */
+    public function destroy(Request $request): JsonResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(['massage' => 'Logout Success..!']);
     }
 }
