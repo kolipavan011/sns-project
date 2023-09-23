@@ -6,6 +6,7 @@
 import './bootstrap';
 import { createApp } from 'vue';
 import router from './router';
+import request from './mixins/request';
 import App from './view/App.vue';
 
 /**
@@ -16,4 +17,5 @@ import App from './view/App.vue';
 
 const app = createApp(App)
     .use(router)
+    .mixin(request)
     .mount('#app');

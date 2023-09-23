@@ -25,6 +25,21 @@ textarea:focus {
     outline: none !important;
 }
 
+/* Custom css here */
+
+body {
+    &[data-sidebar]{
+        .app-sidebar {
+            display: none !important;
+        }
+
+        .app-wrapper {
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
 .page__title {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

@@ -8,6 +8,7 @@ import TagsList from '../view/TagsList.vue';
 import CategoryList from '../view/CategoryList.vue';
 import MediaList from '../view/MediaList.vue';
 import VidBot from '../view/VidBot.vue';
+import Login from '../view/Login.vue';
 
 
 // 2. Define some routes
@@ -18,6 +19,11 @@ const routes = [
     path: '/',
     name: 'home',
     redirect: '/dash'
+  },
+  {
+    path: '/login',
+    name : 'login',
+    component: Login,
   },
   {
     path: '/dash',
