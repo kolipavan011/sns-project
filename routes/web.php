@@ -23,7 +23,7 @@ Route::prefix('vidmin/')->group(function () {
    Route::prefix('auth')->group(function () {
       Route::post('login', [LoginController::class, 'store']);
       Route::get('user', [LoginController::class, 'index']);
-      Route::get('logout', [LoginController::class, 'destroy']);
+      Route::post('logout', [LoginController::class, 'destroy']);
    });
 
    Route::namespace('Api')->prefix('api')->group(function () {

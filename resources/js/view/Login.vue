@@ -68,7 +68,6 @@ export default {
         document.body.setAttribute('data-sidebar', 'true');
     },
     unmounted() {
-        console.log(this.$auth.user());
         document.body.removeAttribute('data-sidebar');
     }
 }

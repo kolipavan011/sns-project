@@ -18,7 +18,8 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect: '/dash'
+    redirect: '/dash',
+    meta: { auth: true}
   },
   {
     path: '/login',
@@ -37,7 +38,6 @@ const routes = [
     name : 'tags',
     component: TagsList,
     meta: { auth: true}
-
   },
   {
     path: '/posts',

@@ -5,7 +5,7 @@
                 <h2 class="mb-0 fw-bolder page__title">{{ title }}</h2>
             </a>
 
-            <div class="dropdown">
+            <div class="dropdown" v-if="$auth.check()">
                 <a class="nav-link" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                     <div style="width: 32px;height: 32px;" class="bg-primary rounded-circle">
                         <p class="text-uppercase fs-4 text-white text-center fw-bolder">p</p>
@@ -13,9 +13,9 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item">{{ $auth.user().name }}</a></li>
                     <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <li><a class="dropdown-item text-danger" href="#" @click="logout">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -25,6 +25,11 @@
 <script>
 export default {
     name: 'PageHeader',
-    props: [ 'title' ]
+    props: ['title'],
+    methods: {
+        logout() {
+            this.$auth.logout().then(resp => this.$router.push('/login'));
+        }
+    },
 }
 </script>

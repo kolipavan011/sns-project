@@ -14,9 +14,7 @@ const auth = createAuth({
     auth: driverAuthBasic
   },
   staySignedIn: true,
-  staySignedIn: true,
-  autoLogin: true,
-
+  authRedirect: '/login'
 })
 
 export default auth;
