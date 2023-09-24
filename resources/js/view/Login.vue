@@ -44,26 +44,18 @@ export default {
         }
     },
     methods: {
-        login2() {
+        login() {
             this.request().post('/login', this.data)
-                .then(data => {
+                .then(resp => {
                     this.$toast.success('Logged In ..!')
-                    console.log(resp);
+                    this.$auth.login(resp.data);
+                    this.$router.push({ name: 'dashboard' });
                 })
                 .catch(err => {
                     this.$toast.error(err.message);
                 });  
         },
-        login() {
-            this.$auth.login({data: this.data})
-                .then(resp => {
-                    this.$toast.success('Logged in ..!')
-                })
-                .catch(err => {
-                    this.$toast.error('Try again ..!')
-                });
-        }
-    },  
+    },
     mounted() {
         document.body.setAttribute('data-sidebar', 'true');
     },

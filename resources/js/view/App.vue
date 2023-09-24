@@ -24,7 +24,7 @@ export default {
     name: 'app-container',
     data() {
         return {
-            list:['dashboard','posts','media','category','tags','vidbot','users','setting','login']
+            list:['dashboard','posts','media','category','tags','vidbot','users','setting']
         }
     },
 }

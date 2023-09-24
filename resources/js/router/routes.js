@@ -19,43 +19,31 @@ const routes = [
     path: '/',
     name: 'home',
     redirect: '/dash',
-    meta: { auth: true}
-  },
-  {
-    path: '/login',
-    name : 'login',
-    component: Login,
-    meta: { auth: false}
   },
   {
     path: '/dash',
     name : 'dashboard',
     component: DashBoard,
-    meta: { auth: true}
   },
   {
     path: '/tags',
     name : 'tags',
     component: TagsList,
-    meta: { auth: true}
   },
   {
     path: '/posts',
     name : 'posts',
     component: PostsList,
-    meta: { auth: true}
   },
   {
     path: '/category',
     name : 'category',
     component: CategoryList,
-    meta: { auth: true}
   },
   {
     path: '/media',
     name : 'media',
     component: MediaList,
-    meta: { auth: true}
   },
   {
     path: '/vidbot',
@@ -67,13 +55,11 @@ const routes = [
     path: '/user',
     name : 'users',
     component: PostsList,
-    meta: { auth: true}
   },
   {
     path: '/setting',
     name : 'setting',
     component: PostsList,
-    meta: { auth: true}
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },
 ]
