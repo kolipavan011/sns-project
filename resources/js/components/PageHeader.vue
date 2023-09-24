@@ -28,7 +28,7 @@ export default {
     props: ['title'],
     methods: {
         logout() {
-            console.log('logout');
+             window.location.href = '/vidmin/logout'
         }
     },
 }

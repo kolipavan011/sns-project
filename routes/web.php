@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
 
@@ -19,12 +19,12 @@ Route::get('/', [ViewController::class, 'home']);
 
 Route::prefix('vidmin/')->group(function () {
 
+   // Auth Controller
+   Route::get('login', [LoginController::class, 'create'])->name('vidmin.login');
+   Route::post('login', [LoginController::class, 'store']);
+   Route::get('logout', [LoginController::class, 'destroy'])->name('vidmin.logout');
 
    Route::namespace('Api')->prefix('api')->group(function () {
-      // Auth Controller
-      Route::post('login', [LoginController::class, 'store']);
-      Route::get('user', [LoginController::class, 'index']);
-      Route::post('logout', [LoginController::class, 'destroy']);
    });
 
    // Catch-all route...
