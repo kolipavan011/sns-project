@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
+use App\Http\Middleware\Authenticate;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +18,16 @@ use App\Http\Controllers\ViewController;
 
 Route::get('/', [ViewController::class, 'home']);
 
-Route::prefix('vidmin/')->group(function () {
+Route::prefix('vidmin')->group(function () {
 
    // Auth Controller
    Route::get('login', [LoginController::class, 'create'])->name('vidmin.login');
    Route::post('login', [LoginController::class, 'store']);
    Route::get('logout', [LoginController::class, 'destroy'])->name('vidmin.logout');
 
-   Route::namespace('Api')->prefix('api')->group(function () {
+   // Authenticated Routes
+   Route::middleware(Authenticate::class)->group(function () {
+      // Catch-all route...
+      Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('vidmin');
    });
-
-   // Catch-all route...
-   Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('vidmin');
 });
