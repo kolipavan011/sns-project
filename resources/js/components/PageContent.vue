@@ -26,7 +26,7 @@
             <div class="card border-0" v-if="!loading && !error">
                 <div class="card-body border" v-for="item in list">
                     <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
-                    <p class="card-text text-muted">Created by Pavan Koli, 12 days ago</p>
+                    <p class="card-text text-muted">Created by Pavan Koli, {{ $filters.timeAgo(item.created_at) }}</p>
                 </div>
                 <div class="card-body p-5 border text-center" v-if="list.length == 0">
                     <h4 class="card-title text-muted  text-uppercase mb-5">No Post Found. Create post first ..!</h4>
