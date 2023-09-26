@@ -20,12 +20,6 @@ export default {
         PageMain,
         PageHeader,
         PageContent
-    },
-    data() {
-        return {}
-    },
-    mounted() {
-        console.log(this.$route.name)
     }
 }
 </script>

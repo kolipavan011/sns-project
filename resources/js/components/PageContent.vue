@@ -8,61 +8,54 @@
                     <a v-if="false" type="button" class="btn btn-danger text-uppercase fw-bold">Delete</a>
                 </div>
                 <div class="ms-2">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected value="1">Published</option>
-                        <option value="2">Draft</option>
+                    <select v-model="status" class="form-select" @change="fetchList(1)">
+                        <option selected value="published">Published</option>
+                        <option value="draft">Draft</option>
                     </select>
                 </div>
                 <div class="ms-2">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected value="1">All Posts</option>
-                        <option value="2">Your Posts</option>
+                    <select v-model="scope" class="form-select" @change="fetchList(1)" >
+                        <option selected value="all">All Posts</option>
+                        <option value="user">Your Posts</option>
                     </select>
                 </div>
             </div>
         </div>
-        <!-- list table -->
-        <table class="table border-top mb-5">
-            <thead>
-                <tr>
-                    <th scope="col">Post Title</th>
-                    <th scope="col">Option</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                    <td>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, tempora.</p>
-                        <p class="text-muted">Created on 12 days ago in love, sad</p>
-                    </td>
-                    <td>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" viewBox="0 0 24 24"
-                            class="icon-cheveron-right-circle">
-                            <circle cx="12" cy="12" r="10" style="fill: none" />
-                            <path class="fill-light-gray"
-                                d="M10.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z" />
-                        </svg>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Card List -->
+        <div class="card__list mb-5">
+            <div class="card border-0" v-if="!loading && !error">
+                <div class="card-body border" v-for="item in list">
+                    <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
+                    <p class="card-text text-muted">Created by Pavan Koli, 12 days ago</p>
+                </div>
+                <div class="card-body p-5 border text-center" v-if="list.length == 0">
+                    <h4 class="card-title text-muted  text-uppercase mb-5">No Post Found. Create post first ..!</h4>
+                    <button @click="fetchList(1)" class="btn btn-primary">refresh</button>
+                </div>
+            </div>
+            <div class="card" v-else>
+                <div class="card-body p-5 text-center" v-if="error">
+                    <h4 class="card-title text-muted  text-uppercase mb-5">Something went`s wrong</h4>
+                    <button @click="fetchList(1)" class="btn btn-primary">refresh</button>
+                </div>
+                <div class="card-body" v-if="loading">
+                    <h5 class="card-title placeholder-glow">
+                        <span class="placeholder col-12"></span>
+                    </h5>
+                    <p class="card-text placeholder-glow">
+                        <span class="placeholder col-7"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
         <!-- pagination -->
-        <div class="page__pagination d-flex justify-content-center pb-5">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
+        <div class="row page__pagination mb-5" v-if="links.length > 0 && list.length > 0">
+            <nav aria-label="Page navigation">
+                <ul class="pagination flex-wrap justify-content-center">
+                    <li class="page-item" :class="{ active : link.active}" v-if="links.url !== null" v-for="link in links">
+                        <a class="page-link" href="#" v-html="link.label" @click.prevent="fetchList(link.label)"></a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -71,8 +64,43 @@
 <script>
 export default {
     name: 'ContentList',
+    data() {
+        return {
+            loading: false,
+            error: false,
+            list: [],
+            links : [],
+            status: 'published',
+            scope: 'all',
+        }
+    },
+    methods: {
+        fetchList(page) {
+            this.list.length = 0;
+            this.links.length = 0;
+            this.loading = true;
+            this.error = false;
+            this.request()
+                .get('/posts', {
+                    params: {
+                        page: page,
+                        scope: this.scope,
+                        status: this.status
+                    }
+                }).then(({ data }) => {
+                    this.loading = false;
+                    this.list = data.data;
+                    this.links = data.links;
+                }).catch(error => {
+                    this.loading = false;
+                    this.error = true;
+                    this.links.length = 0;
+                    console.log(error);
+                });      
+        }
+    },
     created() {
-        console.log('create content');
+        this.fetchList(1);
     }
 }
 </script>

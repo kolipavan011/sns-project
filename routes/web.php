@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
@@ -27,6 +28,22 @@ Route::prefix('vidmin')->group(function () {
 
    // Authenticated Routes
    Route::middleware(Authenticate::class)->group(function () {
+
+      //Api Routes
+      Route::prefix('api')->group(function () {
+
+         // Post routes...
+         Route::prefix('posts')->controller(PostController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('create', 'create');
+            Route::get('{id}', 'show');
+            Route::post('{id}', 'store');
+            Route::delete('{id}', 'destroy');
+         });
+
+         //Users routes
+      });
+
       // Catch-all route...
       Route::get('/{view?}', [ViewController::class, 'index'])->where('view', '(.*)')->name('vidmin');
    });

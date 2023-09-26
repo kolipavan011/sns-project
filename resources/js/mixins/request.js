@@ -18,12 +18,22 @@ export default {
 
             const errorHandler = (error) => {
                 // Add any error modifiers...
-                return Promise.reject(error.response.data);
+                switch (error.response.status) {
+                    case 401:
+                    case 405:
+                        // TODO: This check needs to be rewritten
+                        window.location.href = `vidmin/logout`;
+                        break;
+                    default:
+                        break;
+                }
+
+                return Promise.reject({ ...error.response });
             };
 
             const successHandler = (response) => {
                 // Add any response modifiers...
-                return response.data;
+                return response;
             };
 
             instance.interceptors.request.use((request) => requestHandler(request));
