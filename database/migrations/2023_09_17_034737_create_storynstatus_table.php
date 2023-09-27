@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // user table
         Schema::create('users', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
@@ -24,9 +24,9 @@ return new class extends Migration
 
         // files table
         Schema::create('files', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('path');
-            $table->string('type',20);
+            $table->string('type', 20);
             $table->uuid('user_id');
             $table->uuid('folder_id');
             $table->json('detail')->nullable();
@@ -82,9 +82,9 @@ return new class extends Migration
 
         // file manager table
         Schema::create('file_manager', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->primary();
             $table->string('folder_name');
-            $table->string('folder_slug',5)->index();
+            $table->string('folder_slug', 5)->index();
             $table->string('folder_parent');
             $table->softDeletes();
             $table->timestamps();
@@ -103,7 +103,6 @@ return new class extends Migration
             $table->uuid('category_id');
             $table->unique(['post_id', 'category_id']);
         });
-
     }
 
     /**

@@ -8,7 +8,7 @@ import TagsList from '../view/TagsList.vue';
 import CategoryList from '../view/CategoryList.vue';
 import MediaList from '../view/MediaList.vue';
 import VidBot from '../view/VidBot.vue';
-import Login from '../view/Login.vue';
+import PostEdit from '../view/PostEdit.vue';
 
 
 // 2. Define some routes
@@ -34,6 +34,11 @@ const routes = [
     path: '/posts',
     name : 'posts',
     component: PostsList,
+  },
+  {
+    path: '/posts/:id/edit',
+    name : 'post-edit',
+    component: PostEdit,
   },
   {
     path: '/category',

@@ -25,7 +25,9 @@
         <div class="card__list mb-5">
             <div class="card border-0" v-if="!loading && !error">
                 <div class="card-body border" v-for="item in list">
-                    <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
+                    <router-link :to="{ name : 'post-edit', params : {id: item.id}}" class="text-decoration-none text-dark">
+                        <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
+                    </router-link>
                     <p class="card-text text-muted">Created by Pavan Koli, {{ $filters.timeAgo(item.created_at) }}</p>
                 </div>
                 <div class="card-body p-5 border text-center" v-if="list.length == 0">
@@ -53,7 +55,7 @@
         <div class="row page__pagination mb-5" v-if="links.length > 0 && list.length > 0">
             <nav aria-label="Page navigation">
                 <ul class="pagination flex-wrap justify-content-center">
-                    <li class="page-item" :class="{ active : link.active}" v-if="links.url !== null" v-for="link in links">
+                    <li class="page-item" :class="{ active : link.active}"  v-for="link in links">
                         <a class="page-link" href="#" v-html="link.label" @click.prevent="fetchList(link.label)"></a>
                     </li>
                 </ul>

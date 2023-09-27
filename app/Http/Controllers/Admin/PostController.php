@@ -10,7 +10,7 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    public function index(): JsonResponse
+    public function index() //: JsonResponse
     {
         $posts = Post::query()
             ->select('id', 'title', 'published_at', 'created_at')

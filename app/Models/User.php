@@ -60,7 +60,7 @@ class User extends Authenticatable
      * @var string
      */
     protected $keyType = 'string';
-    
+
     /**
      * Get the posts relationship.
      *
@@ -90,5 +90,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class);
     }
-
 }
