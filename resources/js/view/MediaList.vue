@@ -37,8 +37,8 @@
                             class="card-img-top img-fluid"
                             loading="lazy"
                         >
-                        <div class="card-body">
-                            <p class="card-text"><small class="text-muted">{{ item }}</small></p>
+                        <div class="card-body p-1">
+                            <p class="card-text text-truncate" :title="item"><small class="text-muted">{{ item }}</small></p>
                         </div>
                     </div>
                 </div>
