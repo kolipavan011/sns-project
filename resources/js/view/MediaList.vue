@@ -29,16 +29,16 @@
                 </div>
             </div>
             <!-- list table -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5">
-                <div class="col" v-for="item in Array.from({length:9},(x,i) => i+31)">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-5 g-4 mb-5">
+                <div class="col" v-for="item in list">
                     <div class="card">
-                        <img :src="'http://storynstatus.test/storage/2023/'+item+'.jpg'" class="card-img-top img-fluid">
+                        <img 
+                            :src="'http://storynstatus.test/storage/2023/'+item" 
+                            class="card-img-top img-fluid"
+                            loading="lazy"
+                        >
                         <div class="card-body">
-                            <h6 class="card-title">File {{ item }} <span class="text-muted">({{ Math.round(Math.random(1, 9) * 2) }} MB)</span></h6>
-                            <div class="d-flex justify-content-between">
-                                <p class="card-text mb-2"><small class="text-muted">12 days ago</small></p>
-                                <a type="button" class="media__delete d-none btn btn-danger btn-sm">Delete</a>
-                            </div>
+                            <p class="card-text"><small class="text-muted">{{ item }}</small></p>
                         </div>
                     </div>
                 </div>
@@ -86,10 +86,17 @@ export default {
         PageHeader,
     },
     data() {
-        return {}
+        return {
+            list: [],
+        }
+    },
+    methods: {
+        fetchMedia() {
+            this.list = [...Array.from({ length: 9 }, (x, i) => (i + 31)+'.jpg'), ...Array.from({ length: 9 }, (x, i) => (i + 31) + '.jpg')]
+        }
     },
     mounted() {
-        console.log(this.$route.name)
+        this.fetchMedia();
     }
 }
 </script>

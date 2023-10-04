@@ -1,14 +1,11 @@
 <template>
     <div class="content-edit">
         <div class="row">
-            <div class="col-12">
+            <div class="col-md-6">
                 <div class="mb-4">
+                    <label class="form-label">Title</label>
                     <input type="email" class="form-control" placeholder="Post title">
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
                 <div class="mb-4">
                     <label for="exampleInputEmail1" class="form-label">Slug</label>
                     <input type="email" class="form-control" placeholder="Post slug ...">
@@ -21,22 +18,34 @@
                     <label for="exampleInputPassword1" class="form-label">Tags</label>
                     <input type="text" class="form-control" placeholder="Add tags">
                 </div>
-                <div class="mb-4">
-                    <label for="exampleInputPassword1" class="form-label">Description</label>
-                    <textarea class="form-control" cols="30" rows="5" placeholder="Write description here ..."></textarea>
-                </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-4">
                     <label for="exampleInputPassword1" class="form-label">Content</label>
-                    <textarea class="form-control" cols="30" rows="15" placeholder="Content here ..."></textarea>
+                    <vue-editor v-model="content" style="height: 250px;" placeholder="Write Something ..." :editorToolbar="customToolbar"></vue-editor>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { VueEditor } from "vue3-editor";
+
+
 export default {
-    name:'ContentEdit'
+    name: 'ContentEdit',
+    components: {
+        VueEditor
+    },
+    data() {
+        return {
+            content: "",
+            customToolbar: [
+                [{header: [false, 2, 3, 4, 5, 6] }],
+                ["bold", "italic","link"],
+                [{ list: "ordered" }],
+            ]
+        }
+    },
 }
 </script>
