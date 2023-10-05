@@ -25,7 +25,7 @@
         <div class="card__list mb-5">
             <div class="card border-0" v-if="!loading && !error">
                 <div class="card-body border" v-for="item in list">
-                    <router-link :to="{ name : 'post-edit', params : {id: item.id}}" class="text-decoration-none text-dark">
+                    <router-link :to="{ name : 'post-view', params : {id: item.id}}" class="text-decoration-none text-dark">
                         <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
                     </router-link>
                     <p class="card-text text-muted">Created by Pavan Koli, {{ $filters.timeAgo(item.created_at) }}</p>

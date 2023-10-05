@@ -9,6 +9,7 @@ import CategoryList from '../view/CategoryList.vue';
 import MediaList from '../view/MediaList.vue';
 import VidBot from '../view/VidBot.vue';
 import PostEdit from '../view/PostEdit.vue';
+import PostView from '../view/PostView.vue';
 
 
 // 2. Define some routes
@@ -39,6 +40,11 @@ const routes = [
     path: '/posts/:id/edit',
     name : 'post-edit',
     component: PostEdit,
+  },
+  {
+    path: '/posts/:id/view',
+    name : 'post-view',
+    component: PostView,
   },
   {
     path: '/category',
