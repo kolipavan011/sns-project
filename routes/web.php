@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,15 @@ Route::prefix('vidmin')->group(function () {
 
          // Post routes...
          Route::prefix('posts')->controller(PostController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('create', 'create');
+            Route::get('{id}', 'show');
+            Route::post('{id}', 'store');
+            Route::delete('{id}', 'destroy');
+         });
+
+         // Post routes...
+         Route::prefix('media')->controller(MediaController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
             Route::get('{id}', 'show');

@@ -37,4 +37,11 @@ class FileManager extends Model
      * @var string
      */
     protected $keyType = 'string';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['id', 'folder_name', 'folder_slug', 'folder_parent'];
 }
