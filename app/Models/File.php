@@ -46,4 +46,11 @@ class File extends Model
     protected $casts = [
         'detail' => 'array',
     ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 }

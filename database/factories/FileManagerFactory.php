@@ -20,9 +20,9 @@ class FileManagerFactory extends Factory
 
         return [
             'id' => fake()->uuid,
-            'folder_name' => $word,
+            'name' => $word,
             'folder_slug' => substr($word, 0, 5),
-            'folder_parent' => '00000000-00000000-00000000-00000000',
+            'folder_id' => '00000000-00000000-00000000-00000000',
         ];
     }
 }

@@ -16,8 +16,8 @@ class FileManagerSeeder extends Seeder
     {
         $files = FileManager::all();
 
-        FileManager::factory()->count(10)->state(new Sequence(
-            fn (Sequence $sequence) => ['folder_parent' => $files->count() > 0 ? $files->random() : FileManager::query()->make(['id' => '00000000-00000000-00000000-00000000'])]
+        FileManager::factory()->count(3)->state(new Sequence(
+            fn (Sequence $sequence) => ['folder_id' => $files->count() > 0 ? $files->random() : FileManager::query()->make(['id' => '00000000-00000000-00000000-00000000'])]
         ))->create();
     }
 }

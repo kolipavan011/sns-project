@@ -19,12 +19,12 @@ class FileFactory extends Factory
     {
         return [
             'id' => fake()->uuid,
+            'name' => fake()->word,
             'path' => fake()->imageUrl(),
             'type' => 'image',
             'user_id' => fake()->uuid,
             'folder_id' => fake()->uuid,
             'detail' => [
-                'name' => fake()->word(),
                 'size' => '2MB',
                 'type' => 'jpg/image',
             ],

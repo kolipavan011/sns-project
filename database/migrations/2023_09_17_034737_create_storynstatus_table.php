@@ -22,18 +22,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // files table
-        Schema::create('files', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('path');
-            $table->string('type', 20);
-            $table->uuid('user_id');
-            $table->uuid('folder_id');
-            $table->json('detail')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
         // posts table
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id')->primary();
@@ -80,12 +68,25 @@ return new class extends Migration
             $table->unique(['slug', 'user_id']);
         });
 
+        // files table
+        Schema::create('files', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name');
+            $table->string('path');
+            $table->string('type', 20);
+            $table->uuid('user_id');
+            $table->uuid('folder_id')->index();
+            $table->json('detail')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         // file manager table
         Schema::create('file_manager', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('folder_name');
+            $table->string('name');
             $table->string('folder_slug', 5)->index();
-            $table->string('folder_parent');
+            $table->string('folder_id')->index();
             $table->softDeletes();
             $table->timestamps();
         });

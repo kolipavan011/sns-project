@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\LoginController;
@@ -42,7 +43,17 @@ Route::prefix('vidmin')->group(function () {
             Route::delete('{id}', 'destroy');
          });
 
-         // Post routes...
+         // Folder routes...
+         Route::prefix('folder')->controller(FolderController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::post('create', 'create');
+            Route::get('{id}', 'show');
+            Route::post('{id}', 'store');
+            Route::post('{id}/paste', 'paste');
+            Route::delete('{id}', 'destroy');
+         });
+
+         // Media Route
          Route::prefix('media')->controller(MediaController::class)->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
@@ -50,7 +61,6 @@ Route::prefix('vidmin')->group(function () {
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });
-
          //Users routes
       });
 

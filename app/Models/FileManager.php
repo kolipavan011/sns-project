@@ -11,6 +11,13 @@ class FileManager extends Model
     use HasFactory, SoftDeletes;
 
     /**
+     * Default Root Folder Id
+     * 
+     * @var const
+     */
+    public const ROOT = '00000000-00000000-00000000-00000000';
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -43,5 +50,5 @@ class FileManager extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'folder_name', 'folder_slug', 'folder_parent'];
+    protected $fillable = ['id', 'name', 'folder_slug', 'folder_id'];
 }
