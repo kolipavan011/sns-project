@@ -8,7 +8,7 @@
             <div class="page__tool mb-4">
                 <div class="d-flex justify-content-end">
                     <div class="me-auto">
-                        <a type="button" class="btn btn-primary text-uppercase fw-bold me-2">Upload</a>
+                        <a type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="uploadModalShow">Upload</a>
                     </div>
                     <div>
                         <select @change="fetchMedia" v-model="filter.type" class="form-select" aria-label="Default select example">
@@ -119,6 +119,7 @@
             <!-- Models -->
             <div class="models-section">
                 <MediaModal :item="modalItem" ref="mediaModal" @modalResponse="modalResponse"></MediaModal>
+                <upload-modal ref="uploadModal" :folder="getCurrentFolder"></upload-modal>
             </div>
         </template>
     </PageMain>
@@ -128,17 +129,25 @@ import { Modal, Dropdown } from "bootstrap/dist/js/bootstrap.esm.min";
 import PageMain from '../components/PageMain.vue';
 import PageHeader from '../components/PageHeader.vue';
 import MediaModal from '../components/modals/MediaModal.vue';
+import UploadModal from '../components/modals/UploadModal.vue';
 
 export default {
     name: 'PostList',
     components: {
         PageMain,
         PageHeader,
-        MediaModal
+        MediaModal,
+        UploadModal
+    },
+    computed : {
+        getCurrentFolder() {
+            return this.folderStack[this.folderStack.length - 1].id;
+        }  
     },
     data() {
         return {
             Modal: undefined,
+            fileUploadModal:undefined,
             Dropdown: undefined,
             bulkSelect: false,
             modalItem: {},
@@ -176,6 +185,9 @@ export default {
                     console.log(err);
                     this.loading = false;
                   });
+        },
+        uploadModalShow() {
+            this.fileUploadModal.show();
         },
         handleClick(media) {
             if (this.bulkSelect) return media.isSelected = !media.isSelected;
@@ -262,8 +274,14 @@ export default {
     mounted() {
         this.fetchMedia();
         this.modal = new Modal(this.$refs.mediaModal.$el);
+        this.fileUploadModal = new Modal(this.$refs.uploadModal.$el);
         this.Dropdown = new Dropdown(this.$refs.dropdown);
         this.modalItem = this.folderStack[0];
+    },
+    unmounted() {
+        this.modal.hide();
+        this.fileUploadModal.hide();
+        
     }
 }
 </script>

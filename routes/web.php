@@ -47,7 +47,6 @@ Route::prefix('vidmin')->group(function () {
          Route::prefix('folder')->controller(FolderController::class)->group(function () {
             Route::get('/', 'index');
             Route::post('create', 'create');
-            Route::get('{id}', 'show');
             Route::post('{id}', 'store');
             Route::post('{id}/paste', 'paste');
             Route::delete('{id}', 'destroy');
@@ -55,9 +54,7 @@ Route::prefix('vidmin')->group(function () {
 
          // Media Route
          Route::prefix('media')->controller(MediaController::class)->group(function () {
-            Route::get('/', 'index');
-            Route::get('create', 'create');
-            Route::get('{id}', 'show');
+            Route::post('{id}/upload', 'upload');
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });

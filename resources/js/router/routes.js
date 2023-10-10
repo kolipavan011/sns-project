@@ -47,6 +47,11 @@ const routes = [
     component: PostView,
   },
   {
+    path: '/selector',
+    name : 'selector',
+    component: MediaList,
+  },
+  {
     path: '/category',
     name : 'category',
     component: CategoryList,
