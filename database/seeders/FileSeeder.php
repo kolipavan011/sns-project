@@ -17,7 +17,7 @@ class FileSeeder extends Seeder
     public function run(): void
     {
         File::factory()->count(10)->state(new Sequence(
-            fn (Sequence $sequence) => ['user_id' => User::all()->random(),'folder_id' => FileManager::all()->random()]
+            fn (Sequence $sequence) => ['user_id' => User::all()->random(), 'folder_id' => FileManager::all()->random()]
         ))->create();
     }
 }

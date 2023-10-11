@@ -72,6 +72,7 @@ return new class extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('preview');
             $table->string('path');
             $table->string('type', 20);
             $table->uuid('user_id');

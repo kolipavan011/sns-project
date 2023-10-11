@@ -17,10 +17,13 @@ class FileFactory extends Factory
      */
     public function definition(): array
     {
+        $image = fake()->imageUrl();
+
         return [
             'id' => fake()->uuid,
             'name' => fake()->word,
-            'path' => fake()->imageUrl(),
+            'preview' => $image,
+            'path' => $image,
             'type' => 'image',
             'user_id' => fake()->uuid,
             'folder_id' => fake()->uuid,
