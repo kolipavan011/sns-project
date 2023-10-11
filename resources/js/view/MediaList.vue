@@ -8,7 +8,7 @@
             <div class="page__tool mb-4">
                 <div class="d-flex justify-content-end">
                     <div class="me-auto">
-                        <a type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="uploadModalShow">Upload</a>
+                        <a type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="showUploadModal(false)">Upload</a>
                     </div>
                     <div>
                         <select @change="fetchMedia" v-model="filter.type" class="form-select" aria-label="Default select example">
@@ -78,13 +78,25 @@
                     <div class="card border-0">
                         <a @click="prev()">
                             <img 
-                                src="/storage/prev-folder.png" 
+                                src="/img/prev-folder.png" 
                                 class="media-image"
                                 loading="lazy"
                             >
                         </a>
                         <div class="card-body p-1">
                             <p class="card-text text-center text-truncate" title="Back"><small class="text-muted">Go Back</small></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- loader -->
+                <div class="col" v-if="loading">
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="spinner-border text-secondary" style="width: 4.5rem; height: 4.5rem;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -118,8 +130,12 @@
             </div>
             <!-- Models -->
             <div class="models-section">
-                <MediaModal :item="modalItem" ref="mediaModal" @modalResponse="modalResponse"></MediaModal>
-                <upload-modal ref="uploadModal" :folder="getCurrentFolder"></upload-modal>
+                <MediaModal :item="modalItem" ref="mediaModal" @modalResponse="modalResponse" />
+                <upload-modal
+                    ref="uploadModal" 
+                    :folder="getCurrentFolder"
+                    @close="showUploadModal(true)"
+                />
             </div>
         </template>
     </PageMain>
@@ -153,7 +169,7 @@ export default {
             modalItem: {},
             selection: [],
             loading: false,
-            folderIcon: '/storage/next-folder.png',
+            folderIcon: '/img/next-folder.png',
             folderStack: [{
                 id: '00000000-00000000-00000000-00000000',
                 name: 'Home',
@@ -186,8 +202,9 @@ export default {
                     this.loading = false;
                   });
         },
-        uploadModalShow() {
-            this.fileUploadModal.show();
+        showUploadModal(allow) {
+            if (allow) this.fetchMedia();
+            this.fileUploadModal.toggle();
         },
         handleClick(media) {
             if (this.bulkSelect) return media.isSelected = !media.isSelected;
@@ -290,6 +307,7 @@ export default {
     width: 100%;
     aspect-ratio: 1/1;
     border-radius: 10px;
+    object-fit: contain;
 
     &.is_selected {
         padding: 10px;
