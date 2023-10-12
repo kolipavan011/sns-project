@@ -29,24 +29,20 @@ class FolderController extends Controller
             });
 
         $files = File::query()
-            ->select('id', 'name', 'path', 'folder_id', 'detail', 'type as mime_type', 'created_at')
+            ->select('id', 'name', 'preview', 'path', 'folder_id', 'detail', 'type', 'created_at')
             ->where('folder_id', request()->query('folder', FileManager::ROOT))
             ->when(request()->query('duration', 'today') != 'all', function (Builder $query) {
                 return $this->getDuration($query, request()->query('duration', 'today'));
             }, function (Builder $query) {
                 return $query;
             })
-            ->when(request()->query('type', 'image') != 'video', function (Builder $query) {
-                return $query->where('type', '=', 'image');
+            ->when(request()->query('type', 'image') != 'all', function (Builder $query) {
+                return $query->where('type', '=', request()->query('type', 'image'));
             }, function (Builder $query) {
                 return $query;
             })
             ->latest()
-            ->get()
-            ->map(function ($item) {
-                $item->type = 'media';
-                return $item;
-            });
+            ->get();
 
         return response()->json([...$folders, ...$files]);
     }
@@ -82,13 +78,16 @@ class FolderController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        $obj = FileManager::query()
-            ->findOrFail($id, ['id'])
-            ->delete();
+        $folder = FileManager::query()
+            ->findOrFail($id, ['id', 'folder_id']);
 
-        return response()->json([
-            'massage' => 'delete successfully',
-        ]);
+        File::query()
+            ->where('folder_id', $folder->id)
+            ->update(['folder_id' => $folder->folder_id]);
+
+        $folder->delete();
+
+        return response()->json([], 204);
     }
 
     /**

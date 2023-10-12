@@ -62,15 +62,18 @@ class MediaController extends Controller
             return response()->json(['massage' => 'failed to upload']);
         }
 
+        $fileType = explode('/', Storage::mimeType($path))[0];
+
         $media = File::create([
             'id' => Uuid::uuid4()->toString(),
             'name' => $file->getClientOriginalName(),
+            'preview' => $fileType === 'video' ? '/img/video.svg' : Storage::url($path),
             'path' => Storage::url($path),
-            'type' => explode('/', Storage::mimeType($path))[0],
+            'type' => $fileType,
             'user_id' => request()->user()->id,
             'folder_id' => $id,
             'detail' => [
-                'size' => Storage::size($path)
+                'size' => substr((Storage::size($path) / 1000000), 0, 3) . 'MB',
             ]
         ])->save();
 
@@ -88,12 +91,10 @@ class MediaController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        $obj = File::query()
-            ->findOrFail($id, ['id'])
+        File::query()
+            ->findOrFail($id, ['id', 'path'])
             ->delete();
 
-        return response()->json([
-            'massage' => 'delete successfully',
-        ]);
+        return response()->json([], 204);
     }
 }

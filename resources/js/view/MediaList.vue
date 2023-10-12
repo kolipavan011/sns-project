@@ -105,7 +105,7 @@
                     <div class="card border-0">
                         <a href="#" @click.prevent="handleClick(media)">
                             <img 
-                                :src="media.detail ? media.path : folderIcon" 
+                                :src="media.detail ? media.preview : folderIcon" 
                                 class="media-image border-3 border-primary"
                                 :class="{is_selected: media.isSelected }"
                                 loading="lazy"
@@ -198,9 +198,9 @@ export default {
                     });
                     this.loading = false;
                 }).catch(err => {
-                    console.log(err);
+                    this.$toast.error(error.statusText);
                     this.loading = false;
-                  });
+                });
         },
         showUploadModal(allow) {
             if (allow) this.fetchMedia();
@@ -208,7 +208,7 @@ export default {
         },
         handleClick(media) {
             if (this.bulkSelect) return media.isSelected = !media.isSelected;
-            if (media.type == "media") return this.showModal(media);
+            if (media.type !== "folder") return this.showModal(media);
             this.next(media);
         },
         selectMedia(id) {
