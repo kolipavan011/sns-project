@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,10 +38,13 @@ class PostController extends Controller
         return response()->json([]);
     }
 
-    public function show(): JsonResponse
+    public function show($id): JsonResponse
     {
+        $posts = Post::query()
+            ->with('videos')
+            ->findOrFail($id);
 
-        return response()->json([]);
+        return response()->json($posts);
     }
 
     public function store(): JsonResponse
@@ -53,5 +57,37 @@ class PostController extends Controller
     {
 
         return response()->json([]);
+    }
+
+    /**
+     * Fetch post related videos
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function videos(string $id): JsonResponse
+    {
+        $posts = Post::query()->findOrFail($id)->videos();
+
+        return response()->json($posts);
+    }
+
+    /**
+     * Fetch post related videos
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function insertVideos(string $id): JsonResponse
+    {
+        $posts = Post::query()->findOrFail($id);
+        $videos = File::query()->where('type', 'video')->get(['id']);
+
+        $dataToSync = collect($videos)->map(function ($item) {
+            return $item->id;
+        });
+
+        $posts->videos()->sync($dataToSync);
+        return response()->json($videos);
     }
 }

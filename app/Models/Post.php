@@ -55,6 +55,21 @@ class Post extends Model
      *
      * @return BelongsToMany
      */
+    public function videos(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            File::class,
+            'posts_files',
+            'post_id',
+            'file_id'
+        );
+    }
+
+    /**
+     * Get the tag relationship.
+     *
+     * @return BelongsToMany
+     */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(

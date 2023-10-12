@@ -39,6 +39,7 @@ Route::prefix('vidmin')->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
             Route::get('{id}', 'show');
+            Route::get('{id}/videos', 'videos');
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });
