@@ -41,10 +41,11 @@ class PostController extends Controller
     public function show($id): JsonResponse
     {
         $posts = Post::query()
+            ->select('id', 'created_at', 'title')
             ->with('videos')
             ->findOrFail($id);
 
-        return response()->json($posts);
+        return response()->json($posts->videos);
     }
 
     public function store(): JsonResponse

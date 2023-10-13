@@ -22,11 +22,7 @@ class FolderController extends Controller
             ->select('id', 'name', 'folder_id', 'created_at')
             ->where('folder_id', request()->query('folder', FileManager::ROOT))
             ->orderBy('folder_slug')
-            ->get()
-            ->map(function ($item) {
-                $item->type = 'folder';
-                return $item;
-            });
+            ->get();
 
         $files = File::query()
             ->select('id', 'name', 'preview', 'path', 'folder_id', 'detail', 'type', 'created_at')

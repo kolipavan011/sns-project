@@ -1,76 +1,225 @@
 <template>
     <div class="content-edit">
         <div class="row">
-            <div class="col-12 mb-4">
-                <h3 class="fw-bold mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, consectetur.</h3>
-                <div class="d-flex justify-content-between pb-4 align-items-center border-bottom">
-                    <p class="text-muted text-uppercase fw-bold mb-0 pr-2 text-truncate">published on a month ago</p>
-                    <button type="button" class="btn btn-sm btn-primary">Apply</button>
+            <div class="col-12 mb-4 border-bottom">
+                <div class="card border-0">
+                  <div class="card-body px-0">
+                    <h5 class="card-title fw-bold text-secondary">Lorem ipsum dolor sit amet.</h5>
+                    <p class="card-text text-muted">Created 2 month ago in love status, sad status</p>
+                  </div>
                 </div>
             </div>
         </div>
         <!-- toolbar -->
-        <div class="row mb-5">
+        <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex justify-content-end">
                     <div class="me-auto">
-                        <a type="button" class="btn btn-small btn-primary text-uppercase fw-bold me-2">Upload</a>
+                        <a v-show="allowSelection" type="button" class="btn btn-danger text-uppercase fw-bold me-2" @click="doAllowSelection">Unselect</a>
+                        <a v-show="allowSelection" type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="applySelection">Apply ({{ selection.length }})</a>
+                        <a type="button" v-show="!allowSelection" @click="doAllowSelection" class="btn btn-primary text-uppercase fw-bold me-2">Select</a>
                     </div>
                     <div class="ms-2">
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected value="1">All</option>
-                            <option value="2">Today</option>
-                            <option value="2">Week</option>
-                            <option value="2">Month</option>
-                            <option value="2">Year</option>
+                        <select @change="fetchMedia" class="form-select" aria-label="Default select example">
+                            <option value="all">All</option>
+                            <option value="today">Today</option>
+                            <option value="week">Week</option>
+                            <option value="month">Month</option>
+                            <option value="year">Year</option>
                         </select>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- breadcrumb -->
+        <div class="row mb-4" v-if="allowSelection">
+            <div class="col-12 border-bottom border-top py-2 align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item" v-for="i in folderStack">{{ i.name }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
         <!-- Media List View -->
-        <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-5 g-4 mb-5">
+        <div class="row row-cols-2 row-cols-sm-4 row-cols-lg-5 g-4 mb-5">
+            <!-- prev btn -->
+            <div class="col" v-if="folderStack.length > 1 && allowSelection">
+                <div class="card border-0">
+                    <a @click="prevFolder()">
+                        <img 
+                            src="/img/prev-folder.png" 
+                            class="media-image"
+                            loading="lazy"
+                        >
+                    </a>
+                    <div class="card-body p-1">
+                        <p class="card-text text-center text-truncate" title="Back"><small class="text-muted">Go Back</small></p>
+                    </div>
+                </div>
+            </div>
+            <!-- loader -->
+            <div class="col" v-if="loading && allowSelection">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="spinner-border text-secondary" style="width: 4.5rem; height: 4.5rem;" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- List of Item -->
             <div class="col" v-for="item in list">
-                <div class="card">
+                <div class="card border-0" @click="handleClick(item)">
                     <img 
-                        :src="'http://storynstatus.test/storage/2023/'+item" 
-                        class="card-img-top img-fluid"
+                        :src="item.preview" 
+                        class="card-img-top img-fluid thumbnail border-primary"
+                        :class="{'is-selected': isSelected(item.id)}"
                         loading="lazy"
                     >
                     <div class="card-body p-1">
-                        <p class="card-text text-truncate" :title="item"><small class="text-muted">{{ item }}</small></p>
+                        <p class="card-text text-truncate text-center" :title="item.name"><small class="text-muted">{{ item.name }}</small></p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- No Media Found -->
-        <div v-if="false"  class="d-flex justify-content-center align-items-center mb-5">
-            <div class="card p-5">
-                <div class="card-body text-center">
-                <h5 class="card-title">No Media Found</h5>
-                <p class="card-text text-muted">Let`s upload media here. you can find useful video, images and much more here. To upload media file click on upload button and select file you want to upload ..!</p>
+        <!-- Loader -->
+        <div class="row">
+            <div class="col-12" v-show="loading && !allowSelection">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="spinner-border text-secondary" style="width: 4.5rem; height: 4.5rem;" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="modal-section">
+            <VideoModal :video="video" ref="videoModal" />
         </div>
     </div>
 </template>
 <script>
-
+import { Modal, Dropdown } from "bootstrap/dist/js/bootstrap.esm.min";
+import VideoModal from "./modals/VideoModal.vue";
 
 export default {
     name: 'ContentView',
+    components: {
+        VideoModal,
+    },
     data() {
         return {
+            videoModal: undefined,
+            allowSelection: false,
+            video:{},
+            loading: false,
+            duration:'all',
+            id: this.$route.params.id,
             list: [],
+            selection:[],
+            folderStack: [{
+                id: '00000000-00000000-00000000-00000000',
+                name: 'Home',
+                file: '/storage/next-folder.png',
+                type: 'folder'
+            }],
         }
     },
     methods: {
         fetchMedia() {
-            this.list = [...Array.from({ length: 9 }, (x, i) => (i + 31) + '.jpg'), ...Array.from({ length: 9 }, (x, i) => (i + 31) + '.jpg')]
+            let endPoint = '/posts/' + this.id;
+            let filter = {duration:this.duration};
+
+            if (this.allowSelection) {
+                endPoint = '/folder';
+                filter.type = 'video';
+                filter.duration = 'all';
+                filter.folder = this.currentFolder();
+            }
+          
+            this.list.length = 0;
+            this.loading = true;
+            this.request()
+                .get(endPoint,{params : filter})
+                .then(({ data }) => {
+                    this.loading = false;
+                    this.list = data.map(item => {
+                        if (item.type == undefined) {
+                            item.type = 'folder';
+                            item.preview = '/img/next-folder.png';
+                        }
+                        return item;
+                    });
+                })
+                .catch(err => {
+                    this.loading = false;
+                    console.log(err);
+                });
+        },
+        handleClick(item) {
+            if (item.type == 'folder') {
+                return this.nextFolder(item);
+            }
+
+            if (this.allowSelection) {
+                this.toggleToSelection(item.id)
+            } else {
+                this.video = item;
+                this.videoModal.show();
+            }
+        },
+        doAllowSelection() {
+            this.allowSelection = !this.allowSelection;
+            this.selection.length = 0;
+            this.folderStack.splice(1, this.folderStack.length);
+            this.fetchMedia();
+        },
+        prevFolder() {
+            if (this.folderStack.length > 1) this.folderStack.pop();
+            this.fetchMedia();
+        },
+        nextFolder(folder) {
+            this.folderStack.push(folder);
+            this.fetchMedia();
+        },
+        currentFolder() {
+            return this.folderStack[this.folderStack.length - 1].id;
+        },
+        toggleToSelection(id) {
+            if (this.selection.indexOf(id) >= 0) {
+                this.selection.splice(this.selection.indexOf(id), 1);
+            } else {
+                this.selection.push(id);
+            }
+        },
+        isSelected(id) {
+            return (this.selection.indexOf(id) >= 0);
+        },
+        applySelection() {
+            console.log(this.selection);
+            this.doAllowSelection();
         }
     },
     mounted() {
+        this.videoModal = new Modal(this.$refs.videoModal.$el);
         this.fetchMedia();
     }
 }
 </script>
+<style lang="scss">
+.thumbnail {
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+
+    &.is-selected {
+        padding: 10px;
+        border-style: solid;
+    }
+}
+</style>

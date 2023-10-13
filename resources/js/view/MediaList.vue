@@ -194,6 +194,7 @@ export default {
                 .then(({data}) => {
                     this.list = data.map(item => {
                         item.isSelected = false;
+                        item.type = item.type ? item.type : 'folder';
                         return item;
                     });
                     this.loading = false;
