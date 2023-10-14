@@ -1,7 +1,17 @@
 <template>
     <PageMain>
         <template v-slot:head>
-            <PageHeader title="Posts"></PageHeader>
+            <PageHeader title="Posts">
+                <template v-slot:option>
+                    <router-link 
+                        :to="{ name: 'post-create'}" 
+                        class="dropdown-item"
+                    >
+                        New Post
+                    </router-link>
+                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                </template>
+            </PageHeader>
         </template>
         <template v-slot:content>
             <!-- content -->

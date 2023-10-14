@@ -37,6 +37,11 @@ const routes = [
     component: PostsList,
   },
   {
+    path: '/posts/create',
+    name : 'post-create',
+    component: PostEdit,
+  },
+  {
     path: '/posts/:id/edit',
     name : 'post-edit',
     component: PostEdit,

@@ -37,7 +37,7 @@ Route::prefix('vidmin')->group(function () {
          // Post routes...
          Route::prefix('posts')->controller(PostController::class)->group(function () {
             Route::get('/', 'index');
-            Route::post('create', 'create');
+            Route::get('create', 'create');
             Route::get('{id}', 'show');
             Route::get('{id}/videos', 'videos');
             Route::post('{id}/videos-sync', 'videoSync');

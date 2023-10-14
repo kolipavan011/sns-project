@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Post;
+use App\Models\Tag;
+use Canvas\Http\Requests\PostRequest;
+use Ramsey\Uuid\Uuid;
 
 class PostController extends Controller
 {
@@ -34,18 +38,32 @@ class PostController extends Controller
 
     public function create(): JsonResponse
     {
+        $uuid = Uuid::uuid4();
 
-        return response()->json([]);
+        return response()->json([
+            'post' => Post::query()->make([
+                'id' => $uuid->toString(),
+                'slug' => "post-{$uuid->toString()}",
+            ]),
+            'tags' => Tag::query()->get(['title', 'slug']),
+            'category' => Category::query()->get(['title', 'slug']),
+        ]);
     }
 
     public function show($id): JsonResponse
     {
         $posts = Post::query()
-            ->select('id', 'created_at', 'title')
-            ->with('videos:id', 'tags')
+            ->with('tags:id,title', 'category:id,title')
             ->findOrFail($id);
 
-        return response()->json($posts);
+        $tags = Tag::query()->get(['id', 'slug', 'title']);
+        $category = Category::query()->get(['id', 'slug', 'title']);
+
+        return response()->json([
+            'post' => $posts,
+            'tags' => $tags,
+            'category' => $category
+        ]);
     }
 
     /**
@@ -82,10 +100,33 @@ class PostController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
-    public function store(): JsonResponse
+    public function store(PostRequest $request, $id): JsonResponse
     {
+        $data = $request->validated();
 
-        return response()->json([]);
+        $post = Post::query()
+            ->find($id);
+
+        if (!$post) {
+            $post = new Post(['id' => $id]);
+        }
+
+        $post->fill($data);
+        $post->user_id = $post->user_id ?? request()->user('canvas')->id;
+        $post->save();
+
+        $tagsToSync = collect($request->input('tags', []))->map(function ($tag) {
+            return (string) $tag->id;
+        })->toArray();
+
+        $categoryToSync = collect($request->input('category', []))->map(function ($tag) {
+            return (string) $tag->id;
+        })->toArray();
+
+        $post->tags()->sync($tagsToSync);
+        $post->category()->sync($categoryToSync);
+
+        return response()->json($post->refresh(), 201);
     }
 
     public function destroy(): JsonResponse

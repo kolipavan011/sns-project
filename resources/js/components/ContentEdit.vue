@@ -18,11 +18,15 @@
                     <label for="exampleInputPassword1" class="form-label">Tags</label>
                     <input type="text" class="form-control" placeholder="Add tags">
                 </div>
+                <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">Feature Image</label>
+                    <input type="text" class="form-control" placeholder="Add Feature Image Url">
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="mb-4">
                     <label for="exampleInputPassword1" class="form-label">Content</label>
-                    <vue-editor v-model="content" style="height: 250px;" placeholder="Write Something ..." :editorToolbar="customToolbar"></vue-editor>
+                    <vue-editor v-model="content" style="height: 300px;" placeholder="Write Something ..." :editorToolbar="customToolbar"></vue-editor>
                 </div>
             </div>
         </div>
@@ -44,7 +48,18 @@ export default {
                 [{header: [false, 2, 3, 4, 5, 6] }],
                 ["bold", "italic","link"],
                 [{ list: "ordered" }],
-            ]
+            ],
+            post: {
+                id: null,
+                slug: null,
+                category: [],
+                tags: [],
+                feature_image: null,
+                body: null,
+                meta: [
+                    
+                ]
+            }
         }
     },
 }
