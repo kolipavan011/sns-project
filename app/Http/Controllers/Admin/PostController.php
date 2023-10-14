@@ -42,10 +42,23 @@ class PostController extends Controller
     {
         $posts = Post::query()
             ->select('id', 'created_at', 'title')
-            ->with('videos')
+            ->with('videos:id')
             ->findOrFail($id);
 
-        return response()->json($posts->videos);
+        return response()->json($posts);
+    }
+
+    public function videoSync($id): JsonResponse
+    {
+        $videos = request()->input('videos', []);
+
+        $posts = Post::query()
+            ->findOrFail($id, ['id']);
+
+        $posts->videos()
+            ->sync($videos);
+
+        return response()->json(['msg' => 'success']);
     }
 
     public function store(): JsonResponse
@@ -68,9 +81,12 @@ class PostController extends Controller
      */
     public function videos(string $id): JsonResponse
     {
-        $posts = Post::query()->findOrFail($id)->videos();
+        $posts = Post::query()
+            ->select('id', 'created_at', 'title')
+            ->with('videos')
+            ->findOrFail($id);
 
-        return response()->json($posts);
+        return response()->json($posts->videos);
     }
 
     /**

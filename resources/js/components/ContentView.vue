@@ -16,10 +16,14 @@
                 <div class="d-flex justify-content-end">
                     <div class="me-auto">
                         <a v-show="allowSelection" type="button" class="btn btn-danger text-uppercase fw-bold me-2" @click="doAllowSelection">Unselect</a>
-                        <a v-show="allowSelection" type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="applySelection">Apply ({{ selection.length }})</a>
-                        <a type="button" v-show="!allowSelection" @click="doAllowSelection" class="btn btn-primary text-uppercase fw-bold me-2">Select</a>
+                    </div>
+                    <div>
+                        <a v-show="allowSelection" type="button" class="btn btn-primary text-uppercase fw-bold me-2" @click="applySelection">Apply({{ selection.length }})</a>
                     </div>
                     <div class="ms-2">
+                        <a type="button" v-show="!allowSelection" @click="doAllowSelection" class="btn btn-primary text-uppercase fw-bold me-2">Select</a>
+                    </div>
+                    <div class="ms-2" v-if="allowSelection">
                         <select @change="fetchMedia" class="form-select" aria-label="Default select example">
                             <option value="all">All</option>
                             <option value="today">Today</option>
@@ -76,7 +80,7 @@
                     <img 
                         :src="item.preview" 
                         class="card-img-top img-fluid thumbnail border-primary"
-                        :class="{'is-selected': isSelected(item.id)}"
+                        :class="{'is-selected': isSelected(item.id) && allowSelection}"
                         loading="lazy"
                     >
                     <div class="card-body p-1">
@@ -121,6 +125,11 @@ export default {
             loading: false,
             duration:'all',
             id: this.$route.params.id,
+            post: {
+                id: null,
+                created_at: null,
+                title:null,
+            },
             list: [],
             selection:[],
             folderStack: [{
@@ -132,8 +141,17 @@ export default {
         }
     },
     methods: {
+        fetchPost() {
+            this.request()
+                .get('posts/' + this.id)
+                .then(({ data }) => {
+                    this.post = data;
+                    data.videos.forEach(item => this.selection.push(item.id));
+                })
+                .catch(err => console.log(err));
+        },
         fetchMedia() {
-            let endPoint = '/posts/' + this.id;
+            let endPoint = '/posts/' + this.id + '/videos';
             let filter = {duration:this.duration};
 
             if (this.allowSelection) {
@@ -176,7 +194,6 @@ export default {
         },
         doAllowSelection() {
             this.allowSelection = !this.allowSelection;
-            this.selection.length = 0;
             this.folderStack.splice(1, this.folderStack.length);
             this.fetchMedia();
         },
@@ -202,12 +219,23 @@ export default {
             return (this.selection.indexOf(id) >= 0);
         },
         applySelection() {
-            console.log(this.selection);
-            this.doAllowSelection();
+            this.request()
+                .post('posts/' + this.id + '/videos-sync', {
+                    videos:this.selection
+                })
+                .then(({ data }) => {
+                    this.doAllowSelection();
+                    this.$toast.success('Videos Sync Success');
+                })
+                .catch(err => {
+                    this.$toast.error('error');
+                    console.log(err);
+                });
         }
     },
     mounted() {
         this.videoModal = new Modal(this.$refs.videoModal.$el);
+        this.fetchPost();
         this.fetchMedia();
     }
 }
