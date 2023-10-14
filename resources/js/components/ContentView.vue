@@ -2,10 +2,18 @@
     <div class="content-edit">
         <div class="row">
             <div class="col-12 mb-4 border-bottom">
-                <div class="card border-0">
+                <div class="card-body pb-3" v-if="!post.id">
+                    <h5 class="card-title placeholder-glow">
+                        <span class="placeholder col-12"></span>
+                    </h5>
+                    <p class="card-text placeholder-glow">
+                        <span class="placeholder col-7"></span>
+                    </p>
+                </div>
+                <div class="card border-0" v-else>
                   <div class="card-body px-0">
-                    <h5 class="card-title fw-bold text-secondary">Lorem ipsum dolor sit amet.</h5>
-                    <p class="card-text text-muted">Created 2 month ago in love status, sad status</p>
+                    <h5 class="card-title fw-bold text-secondary">{{ post.title }}</h5>
+                    <p class="card-text text-muted">Created {{ $filters.timeAgo(post.created_at) }} in love status, sad status</p>
                   </div>
                 </div>
             </div>
@@ -104,7 +112,7 @@
             </div>
         </div>
         <div class="modal-section">
-            <VideoModal :video="video" ref="videoModal" />
+            <VideoModal :video="video" ref="videoModal" @response="detachVideo"/>
         </div>
     </div>
 </template>
@@ -126,8 +134,8 @@ export default {
             duration:'all',
             id: this.$route.params.id,
             post: {
-                id: null,
-                created_at: null,
+                id: false,
+                created_at: new Date().toJSON(),
                 title:null,
             },
             list: [],
@@ -219,6 +227,8 @@ export default {
             return (this.selection.indexOf(id) >= 0);
         },
         applySelection() {
+            this.$toast.info('Videos Sync...');
+
             this.request()
                 .post('posts/' + this.id + '/videos-sync', {
                     videos:this.selection
@@ -226,6 +236,24 @@ export default {
                 .then(({ data }) => {
                     this.doAllowSelection();
                     this.$toast.success('Videos Sync Success');
+                })
+                .catch(err => {
+                    this.$toast.error('error');
+                    console.log(err);
+                });
+        },
+        detachVideo() {
+            this.$toast.info('Videos Detaching...');
+
+            this.request()
+                .post('posts/' + this.id + '/videos-detach', {
+                    videoid: this.video.id
+                })
+                .then(({ data }) => {
+                    this.videoModal.hide();
+                    this.toggleToSelection(this.video.id);
+                    this.fetchMedia();
+                    this.$toast.success('Videos Detach Success');
                 })
                 .catch(err => {
                     this.$toast.error('error');

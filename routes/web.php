@@ -41,6 +41,7 @@ Route::prefix('vidmin')->group(function () {
             Route::get('{id}', 'show');
             Route::get('{id}/videos', 'videos');
             Route::post('{id}/videos-sync', 'videoSync');
+            Route::post('{id}/videos-detach', 'videoDetach');
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });
