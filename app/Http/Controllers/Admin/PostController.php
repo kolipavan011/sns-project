@@ -50,7 +50,13 @@ class PostController extends Controller
         ]);
     }
 
-    public function show($id): JsonResponse
+    /**
+     * Show single post
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function show(string $id): JsonResponse
     {
         $posts = Post::query()
             ->with('tags:id,title', 'category:id,title')
@@ -64,6 +70,21 @@ class PostController extends Controller
             'tags' => $tags,
             'category' => $category
         ]);
+    }
+
+    /**
+     * Show single post with videos
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function showPost(string $id): JsonResponse
+    {
+        $posts = Post::query()
+            ->with('videos:id')
+            ->findOrFail($id, ['id', 'title', 'created_at']);
+
+        return response()->json($posts);
     }
 
     /**

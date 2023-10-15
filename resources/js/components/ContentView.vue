@@ -151,7 +151,7 @@ export default {
     methods: {
         fetchPost() {
             this.request()
-                .get('posts/' + this.id)
+                .get('posts/' + this.id +'/show')
                 .then(({ data }) => {
                     this.post = data;
                     data.videos.forEach(item => this.selection.push(item.id));
