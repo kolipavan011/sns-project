@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\Post;
 use App\Models\Tag;
-use Canvas\Http\Requests\PostRequest;
 use Ramsey\Uuid\Uuid;
+use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
@@ -59,7 +59,8 @@ class PostController extends Controller
     public function show(string $id): JsonResponse
     {
         $posts = Post::query()
-            ->with('tags:id,title', 'category:id,title')
+            ->with('tags:id,title')
+            ->with('category:id,title')
             ->findOrFail($id);
 
         $tags = Tag::query()->get(['id', 'slug', 'title']);
@@ -126,6 +127,7 @@ class PostController extends Controller
         $data = $request->validated();
 
         $post = Post::query()
+            ->with('category:id,title', 'tags:id,title')
             ->find($id);
 
         if (!$post) {
@@ -137,11 +139,11 @@ class PostController extends Controller
         $post->save();
 
         $tagsToSync = collect($request->input('tags', []))->map(function ($tag) {
-            return (string) $tag->id;
+            return (string) $tag;
         })->toArray();
 
-        $categoryToSync = collect($request->input('category', []))->map(function ($tag) {
-            return (string) $tag->id;
+        $categoryToSync = collect($request->input('category', []))->map(function ($category) {
+            return (string) $category;
         })->toArray();
 
         $post->tags()->sync($tagsToSync);

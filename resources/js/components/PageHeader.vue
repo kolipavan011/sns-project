@@ -5,6 +5,8 @@
                 <h2 class="mb-0 fw-bolder">{{ title }}</h2>
             </a>
 
+            <slot name="status"></slot>
+
             <div class="dropdown">
                 <a class="nav-link" role="button" @click="toggleDropdown" id="defaultDropdown">
                     <div style="width: 32px;height: 32px;" class="bg-primary rounded-circle">

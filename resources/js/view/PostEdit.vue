@@ -2,8 +2,12 @@
     <PageMain>
         <template v-slot:head>
             <PageHeader title="Post Editer">
-                <template v-slot:option>
-                    <li class="dropdown-item text-primary">Publish</li>
+                <template v-slot:status>
+                    <ul class="navbar-nav ms-auto pe-3">
+                        <li class="nav-item">
+                            <a class="btn nav-link" @click.prevent="savePost">{{ status }}</a>
+                        </li>
+                    </ul>
                 </template>
             </PageHeader>
         </template>
@@ -17,13 +21,12 @@
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputEmail1" class="form-label">Slug</label>
-                            <input v-model="post.slug" type="email" class="form-control" placeholder="Post slug ...">
+                            <input @change="slugify" v-model="post.slug" type="email" class="form-control" placeholder="Post slug ...">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Category</label>
                             <select v-model="post.category" class="form-control" multiple>
-                            <label for="exampleInputPassword1" class="form-label">Tags</label>
-                                <option :value="opt.id" v-for="opt in tags">{{ opt.title }}</option>
+                                <option :value="opt.id" v-for="opt in category">{{ opt.title }}</option>
                             </select>
                         </div>
                         <div class="mb-4">
@@ -45,7 +48,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Seo Keywords</label>
-                            <input type="text" class="form-control" placeholder="Add Seo Keywords">
+                            <input v-model="post.meta.keywords" type="text" class="form-control" placeholder="Add Seo Keywords">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Seo Description</label>
@@ -73,6 +76,7 @@ import PageMain from '../components/PageMain.vue';
 import PageHeader from '../components/PageHeader.vue';
 import { VueEditor } from "vue3-editor";
 import get from "lodash/get";
+import debounce from 'lodash/debounce';
 
 
 export default {
@@ -83,21 +87,33 @@ export default {
         VueEditor,
     },
 
+    watch: {
+        post: {
+            handler(newPost, oldPost) {
+                this.slugify();
+            },
+            deep: true
+        }
+    },
+
     computed: {
         creatingPost() {
             return this.$route.name === 'post-create';
         },
+        isPublished() {
+            return this.post.published_at !== null;
+        }
     },
 
     data() {
         return {
             select:[],
-            content: "",
             customToolbar: [
                 [{ header: [false, 2, 3, 4, 5, 6] }],
                 ["bold", "italic", "link"],
                 [{ list: "ordered" }],
             ],
+            status:'Save',
             uri: this.$route.params.id || 'create',
             post: {
                 id: null,
@@ -111,7 +127,7 @@ export default {
                 meta: {
                     title: null,
                     description: null,
-                    keywords:[]
+                    keywords:null
                 },
                 tags: [],
                 category:[]
@@ -133,20 +149,81 @@ export default {
                     this.post.body = get(data.post, 'body', '');
                     this.post.category = get(data.post, 'category', []).map(item => item.id);
                     this.post.tags = get(data.post, 'tags', []).map(item => item.id);
-                    this.post.published_at = get(data.post, 'published_at', '');
+                    this.post.published_at = get(data.post, 'published_at', null);
                     this.post.featured_image = get(data.post, 'featured_image', '');
-                    this.post.meta.title = get(data.post, 'title', '');
-                    this.post.meta.description = get(data.post, 'description', '');
-                    this.post.meta.keywords = get(data.post, 'keywords', []);
+                    this.post.meta.title = get(data.post.meta, 'title', '');
+                    this.post.meta.description = get(data.post.meta, 'description', '');
+                    this.post.meta.keywords = get(data.post.meta, 'keywords', '');
                     this.tags = get(data, 'tags', []);
                     this.category = get(data, 'category', []);
+                    this.status = get(data.post, 'published_at', null) !== null ? 'Update' : 'Save';
 
                 })
                 .catch(error => console.log(error));
         },
         savePost() {
-            
-        }
+            this.status = this.isPublished ? 'Updating' : 'Saving';
+
+            return this.request()
+                .post('/posts/' + this.post.id, this.post)
+                .then(({ data }) => {
+                    this.status = this.isPublished ? 'Update' : 'Save';
+                })
+                .catch(error => {
+                    this.status = 'Error';
+                    setTimeout(() => {
+                        this.status = this.isPublished ? 'Update' : 'Save';
+                    }, 3000);
+                    console.log(error);
+                });
+        },
+
+        updatePost : debounce(function () {
+            this.savePost();
+        }, 3000),
+
+        slugify() {
+            let text = this.post.slug.toString().toLowerCase().trim();
+
+            const sets = [
+                { to: 'a', from: '[ÀÁÂÃÄÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶ]' },
+                { to: 'c', from: '[ÇĆĈČ]' },
+                { to: 'd', from: '[ÐĎĐÞ]' },
+                { to: 'e', from: '[ÈÉÊËĒĔĖĘĚẸẺẼẾỀỂỄỆ]' },
+                { to: 'g', from: '[ĜĞĢǴ]' },
+                { to: 'h', from: '[ĤḦ]' },
+                { to: 'i', from: '[ÌÍÎÏĨĪĮİỈỊ]' },
+                { to: 'j', from: '[Ĵ]' },
+                { to: 'ij', from: '[Ĳ]' },
+                { to: 'k', from: '[Ķ]' },
+                { to: 'l', from: '[ĹĻĽŁ]' },
+                { to: 'm', from: '[Ḿ]' },
+                { to: 'n', from: '[ÑŃŅŇ]' },
+                { to: 'o', from: '[ÒÓÔÕÖØŌŎŐỌỎỐỒỔỖỘỚỜỞỠỢǪǬƠ]' },
+                { to: 'oe', from: '[Œ]' },
+                { to: 'p', from: '[ṕ]' },
+                { to: 'r', from: '[ŔŖŘ]' },
+                { to: 's', from: '[ßŚŜŞŠ]' },
+                { to: 't', from: '[ŢŤ]' },
+                { to: 'u', from: '[ÙÚÛÜŨŪŬŮŰŲỤỦỨỪỬỮỰƯ]' },
+                { to: 'w', from: '[ẂŴẀẄ]' },
+                { to: 'x', from: '[ẍ]' },
+                { to: 'y', from: '[ÝŶŸỲỴỶỸ]' },
+                { to: 'z', from: '[ŹŻŽ]' },
+                { to: '-', from: "[·/_,:;']" },
+            ];
+
+            sets.forEach((set) => {
+                text = text.replace(new RegExp(set.from, 'gi'), set.to);
+            });
+
+            return this.post.slug = text
+                .replace(/\s+/g, '-') // Replace spaces with -
+                .replace(/[^\w-]+/g, '') // Remove all non-word chars
+                .replace(/--+/g, '-') // Replace multiple - with single -
+                .replace(/^-+/, '') // Trim - from start of text
+                .replace(/-+$/, ''); // Trim - from end of text
+        },
     },
 
     async created() {
