@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
 use App\Http\Middleware\Authenticate;
+use App\Models\Category;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +65,22 @@ Route::prefix('vidmin')->group(function () {
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });
-         //Users routes
+
+         //Tag routes
+         Route::prefix('tags')->controller(TagController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('create', 'create');
+            Route::get('{id}', 'show');
+            Route::post('{id}', 'store');
+         });
+
+         //Category routes
+         Route::prefix('category')->controller(CategoryController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::get('create', 'create');
+            Route::get('{id}', 'show');
+            Route::post('{id}', 'store');
+         });
       });
 
       // Catch-all route...

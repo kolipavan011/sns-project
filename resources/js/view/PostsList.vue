@@ -9,13 +9,12 @@
                     >
                         New Post
                     </router-link>
-                    <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
                 </template>
             </PageHeader>
         </template>
         <template v-slot:content>
             <!-- content -->
-            <PageContent></PageContent>
+            <PageContent uri="/posts"></PageContent>
         </template>
     </PageMain>
 </template>

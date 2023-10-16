@@ -9,6 +9,8 @@ import CategoryList from '../view/CategoryList.vue';
 import MediaList from '../view/MediaList.vue';
 import VidBot from '../view/VidBot.vue';
 import PostEdit from '../view/PostEdit.vue';
+import TagEdit from '../view/TagEdit.vue';
+import CategoryEdit from '../view/CategoryEdit.vue';
 import PostView from '../view/PostView.vue';
 
 
@@ -32,6 +34,16 @@ const routes = [
     component: TagsList,
   },
   {
+    path: '/tags/create',
+    name : 'tag-create',
+    component: TagEdit,
+  },
+  {
+    path: '/tags/:id/edit',
+    name : 'tag-edit',
+    component: TagEdit,
+  },
+  {
     path: '/posts',
     name : 'posts',
     component: PostsList,
@@ -52,14 +64,19 @@ const routes = [
     component: PostView,
   },
   {
-    path: '/selector',
-    name : 'selector',
-    component: MediaList,
-  },
-  {
     path: '/category',
     name : 'category',
     component: CategoryList,
+  },
+  {
+    path: '/category/:id/edit',
+    name : 'category-edit',
+    component: CategoryEdit,
+  },
+  {
+    path: '/category/create',
+    name : 'category-create',
+    component: CategoryEdit,
   },
   {
     path: '/media',

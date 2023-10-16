@@ -1,11 +1,20 @@
 <template>
     <PageMain>
         <template v-slot:head>
-            <PageHeader title="Category"></PageHeader>
+            <PageHeader title="Category">
+                <template v-slot:option>
+                    <router-link 
+                        :to="{ name: 'category-create'}" 
+                        class="dropdown-item"
+                    >
+                        New Category
+                    </router-link>
+                </template>
+            </PageHeader>
         </template>
         <template v-slot:content>
             <!-- content -->
-            <PageContent></PageContent>
+            <PageContent uri="/category"></PageContent>
         </template>
     </PageMain>
 </template>
@@ -23,9 +32,6 @@ export default {
     },
     data() {
         return {}
-    },
-    mounted() {
-        console.log(this.$route.name)
     }
 }
 </script>

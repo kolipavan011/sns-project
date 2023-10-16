@@ -1,11 +1,20 @@
 <template>
     <PageMain>
         <template v-slot:head>
-            <PageHeader title="Tags"></PageHeader>
+            <PageHeader title="Tags">
+                <template v-slot:option>
+                    <router-link 
+                        :to="{ name: 'tag-create'}" 
+                        class="dropdown-item"
+                    >
+                        New Tag
+                    </router-link>
+                </template>
+            </PageHeader>
         </template>
         <template v-slot:content>
             <!-- content -->
-            <PageContent></PageContent>
+            <PageContent uri="/tags"></PageContent>
         </template>
     </PageMain>
 </template>
@@ -20,12 +29,6 @@ export default {
         PageMain,
         PageHeader,
         PageContent
-    },
-    data() {
-        return {}
-    },
-    mounted() {
-        console.log(this.$route.name)
     }
 }
 </script>

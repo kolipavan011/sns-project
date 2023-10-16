@@ -5,9 +5,8 @@
             <div class="d-flex justify-content-end">
                 <div class="me-auto">
                     <a type="button" class="btn btn-primary text-uppercase fw-bold me-2">Add</a>
-                    <a v-if="false" type="button" class="btn btn-danger text-uppercase fw-bold">Delete</a>
                 </div>
-                <div class="ms-2">
+                <div class="ms-2" v-if="uri == '/posts'">
                     <select v-model="status" class="form-select" @change="fetchList(1)">
                         <option selected value="published">Published</option>
                         <option value="draft">Draft</option>
@@ -25,10 +24,10 @@
         <div class="card__list mb-5">
             <div class="card border-0" v-if="!loading && !error">
                 <div class="card-body border" v-for="item in list">
-                    <router-link :to="{ name : 'post-view', params : {id: item.id}}" class="text-decoration-none text-dark">
-                        <h4 class="card-title">{{item.title}} Lorem ipsum dolor sit amet consectetur.</h4>
+                    <router-link :to="{ name : viewer, params : {id: item.id}}" class="text-decoration-none text-dark">
+                        <h4 class="card-title">{{item.title}}</h4>
                     </router-link>
-                    <p class="card-text text-muted">Created by Pavan Koli, {{ $filters.timeAgo(item.created_at) }}</p>
+                    <p class="card-text text-muted">Created {{ $filters.timeAgo(item.created_at) }}</p>
                 </div>
                 <div class="card-body p-5 border text-center" v-if="list.length == 0">
                     <h4 class="card-title text-muted  text-uppercase mb-5">No Post Found. Create post first ..!</h4>
@@ -66,6 +65,7 @@
 <script>
 export default {
     name: 'ContentList',
+    props: ['uri'],
     data() {
         return {
             loading: false,
@@ -76,6 +76,22 @@ export default {
             scope: 'all',
         }
     },
+    computed: {
+        viewer() {
+            switch (this.uri) {
+                case '/posts':
+                    return 'post-view';
+                case '/tags':
+                    return 'tag-edit';
+                case '/category':
+                    return 'category-edit';
+                default:
+                    return 'post-view';
+            }
+
+            return 'post-view';
+        }  
+    },
     methods: {
         fetchList(page) {
             this.list.length = 0;
@@ -83,7 +99,7 @@ export default {
             this.loading = true;
             this.error = false;
             this.request()
-                .get('/posts', {
+                .get(this.uri, {
                     params: {
                         page: page,
                         scope: this.scope,

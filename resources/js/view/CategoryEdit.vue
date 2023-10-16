@@ -1,7 +1,7 @@
 <template>
     <PageMain>
         <template v-slot:head>
-            <PageHeader title="Post Editer">
+            <PageHeader :title="post.id == null ? 'New Category' : 'Edit Category'">
                 <template v-slot:status>
                     <ul class="navbar-nav ms-auto pe-3">
                         <li class="nav-item">
@@ -17,53 +17,43 @@
                     <div class="col-md-6">
                         <div class="mb-4">
                             <label class="form-label">Title</label>
-                            <input v-model="post.title" type="text" class="form-control" placeholder="Post title">
+                            <input @input.native="updatePost" v-model="post.title" type="text" class="form-control"
+                                placeholder="Category title">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputEmail1" class="form-label">Slug</label>
-                            <input @change="slugify" v-model="post.slug" type="email" class="form-control" placeholder="Post slug ...">
+                            <input @change="slugify" v-model="post.slug" type="email" class="form-control"
+                                placeholder="Category slug ...">
                         </div>
                         <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Category</label>
-                            <select v-model="post.category" class="form-control" multiple>
-                                <option :value="opt.id" v-for="opt in category">{{ opt.title }}</option>
-                            </select>
+                            <label for="exampleInputPassword1" class="form-label">Feature Image</label>
+                            <input v-model="post.featured_image" type="text" class="form-control"
+                                placeholder="Add Feature Image Url">
                         </div>
-                        <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Tags</label>
-                            <select v-model="post.tags" class="form-control" multiple>
-                                <option :value="opt.id" v-for="opt in tags">{{ opt.title }}</option>
-                            </select>
-                        </div>
-                        
                     </div>
                     <div class="col-md-6">
                         <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Feature Image</label>
-                            <input v-model="post.featured_image" type="text" class="form-control" placeholder="Add Feature Image Url">
-                        </div>
-                        <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Seo Title</label>
-                            <input v-model="post.meta.title" type="text" class="form-control" placeholder="Seo title here ..">
+                            <input v-model="post.meta.title" type="text" class="form-control"
+                                placeholder="Seo title here ..">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Seo Keywords</label>
-                            <input v-model="post.meta.keywords" type="text" class="form-control" placeholder="Add Seo Keywords">
+                            <input v-model="post.meta.keywords" type="text" class="form-control"
+                                placeholder="Add Seo Keywords">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputPassword1" class="form-label">Seo Description</label>
-                            <textarea v-model="post.meta.description" class="form-control" rows="3" placeholder="Seo Description"></textarea>
-                        </div>
-                        <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Published Date</label>
-                            <input v-model="post.published_at" type="date" class="form-control" placeholder="Published date">
+                            <textarea v-model="post.meta.description" class="form-control" rows="3"
+                                placeholder="Seo Description"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
                         <div class="mb-4">
-                            <vue-editor v-model="post.body" placeholder="Write Something ..." :editorToolbar="customToolbar"></vue-editor>
+                            <vue-editor v-model="post.body" placeholder="Write Something ..."
+                                :editorToolbar="customToolbar"></vue-editor>
                         </div>
                     </div>
                 </div>
@@ -80,7 +70,7 @@ import debounce from 'lodash/debounce';
 
 
 export default {
-    name: 'PostList',
+    name: 'CategoryEdit',
     components: {
         PageMain,
         PageHeader,
@@ -93,27 +83,35 @@ export default {
                 this.slugify();
             },
             deep: true
-        }
+        },
+        async $route(to) {
+            if (this.uri === 'create' && to.params.id === this.post.id) {
+                this.uri = to.params.id;
+            }
+
+            if (this.uri !== to.params.id) {
+                this.isReady = false;
+                this.uri = this.post.id;
+                await Promise.all([this.fetchPost()]);
+                this.isReady = true;
+            }
+        },
     },
 
     computed: {
         creatingPost() {
-            return this.$route.name === 'post-create';
-        },
-        isPublished() {
-            return this.post.published_at !== null;
+            return this.$route.name === 'category-create';
         }
     },
 
     data() {
         return {
-            select:[],
             customToolbar: [
                 [{ header: [false, 2, 3, 4, 5, 6] }],
                 ["bold", "italic", "link"],
                 [{ list: "ordered" }],
             ],
-            status:'Save',
+            status: 'Save',
             uri: this.$route.params.id || 'create',
             post: {
                 id: null,
@@ -121,33 +119,29 @@ export default {
                 slug: null,
                 featured_image: null,
                 body: null,
-                published_at:null,
+                published_at: null,
                 meta: {
                     title: null,
                     description: null,
-                    keywords:null
+                    keywords: null
                 },
-                tags: [],
-                category:[]
             },
-            tags: [],
-            category: [],
             isReady: false
         }
     },
 
     methods: {
         fetchPost() {
+            if (this.creatingPost && this.post.id) {
+                return this.$router.push({ name: 'category-edit', params: { id: this.post.id } });
+            }
             return this.request()
-                .get('/posts/' + this.uri)
+                .get('/category/' + this.uri)
                 .then(({ data }) => {
                     this.post.id = data.post.id;
                     this.post.title = get(data.post, 'title', '');
                     this.post.slug = get(data.post, 'slug', '');
                     this.post.body = get(data.post, 'body', '');
-                    this.post.category = get(data.post, 'category', []).map(item => item.id);
-                    this.post.tags = get(data.post, 'tags', []).map(item => item.id);
-                    this.post.published_at = get(data.post, 'published_at', null);
                     this.post.featured_image = get(data.post, 'featured_image', '');
                     this.post.meta.title = get(data.post.meta, 'title', '');
                     this.post.meta.description = get(data.post.meta, 'description', '');
@@ -163,9 +157,13 @@ export default {
             this.status = this.isPublished ? 'Updating' : 'Saving';
 
             return this.request()
-                .post('/posts/' + this.post.id, this.post)
+                .post('/category/' + this.post.id, this.post)
                 .then(({ data }) => {
                     this.status = this.isPublished ? 'Update' : 'Save';
+
+                    if (this.creatingPost) {
+                        this.$router.push({ name: 'category-edit', params: { id: this.post.id } });
+                    }
                 })
                 .catch(error => {
                     this.status = 'Error';
@@ -176,9 +174,9 @@ export default {
                 });
         },
 
-        updatePost : debounce(function () {
+        updatePost: debounce(function () {
             this.savePost();
-        }, 3000),
+        }, 2000),
 
         slugify() {
             let text = this.post.slug.toString().toLowerCase().trim();

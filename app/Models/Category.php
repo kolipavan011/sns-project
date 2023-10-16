@@ -49,6 +49,13 @@ class Category extends Model
     ];
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Get the post relationship.
      *
      * @return BelongsToMany
@@ -62,5 +69,4 @@ class Category extends Model
             'post_id'
         );
     }
-
 }
