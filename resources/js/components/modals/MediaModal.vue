@@ -23,6 +23,7 @@
           <div class="modal-footer">
               <button type="button" class="btn btn-danger" @click="deleteItem">Delete</button>
               <button type="button" class="btn btn-primary" @click="rename">Rename</button>
+              <button type="button" class="btn btn-info" @click="copyUrl">Copy Url</button>
               <button type="button" class="btn btn-success" v-if="item.type == 'video'">Capture</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
@@ -31,6 +32,8 @@
     </div>
 </template>
 <script>
+import copy from 'copy-to-clipboard';
+
 export default {
   name: 'MediaModal',
   props: {
@@ -62,6 +65,9 @@ export default {
         })
         .catch(err => this.$toast.error('Something wents wrong'));
     },
+    copyUrl() {
+      if (copy(this.item.path)) this.$toast.success('Url Copied');
+    }
   },
 }
 </script>
