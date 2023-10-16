@@ -45,6 +45,7 @@ class MediaController extends Controller
      */
     public function upload(string $id): JsonResponse
     {
+
         $payload = request()->file();
         $now = Carbon::now();
 
@@ -81,6 +82,55 @@ class MediaController extends Controller
             'massage' => 'uploaded succes',
             'url' => $media
         ]);
+    }
+
+    public function uploadThumbnail(string $id): JsonResponse
+    {
+        if (request()->exists('filepond')) {
+
+            $image = request()->input('filepond', '');
+            $name = request()->input('filename', time());
+
+            if (strlen($image) < 128) {
+                return response()->json(null, 400);
+            }
+
+            list($mime, $data)   = explode(';', $image);
+            list(, $data)       = explode(',', $data);
+            $data = base64_decode($data);
+
+            $mime = explode(':', $mime)[1];
+            $ext = explode('/', $mime)[1];
+            $type = explode('/', $mime)[0];
+            $now = Carbon::now();
+
+            $path = "public/{$now->year}/11/{$name}" . time() . "{$ext}";
+
+
+            $uploadedFile = Storage::put($path, $data);
+
+            $media = File::create([
+                'id' => Uuid::uuid4()->toString(),
+                'name' => "{$name}.{$ext}",
+                'preview' => $type === 'video' ? '/img/video.svg' : Storage::url($path),
+                'path' => Storage::url($path),
+                'type' => $type,
+                'user_id' => request()->user()->id,
+                'folder_id' => $id,
+                'detail' => [
+                    'size' => substr((Storage::size($path) / 1000000), 0, 3) . 'MB',
+                ]
+            ])->save();
+
+            File::query()->find(request()->input('video'))->update(['preview' => Storage::url($path)]);
+
+            return response()->json([
+                'massage' => 'uploaded succes',
+                'data' => $uploadedFile
+            ]);
+        }
+
+        return response()->json(null, 400);
     }
 
     /**

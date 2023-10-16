@@ -103,6 +103,7 @@
                 <!-- media list -->
                 <div class="col" v-for="media in list">
                     <div class="card border-0">
+                        <span class="video-btn" v-if="media.type == 'video'"></span>
                         <a href="#" @click.prevent="handleClick(media)">
                             <img 
                                 :src="media.detail ? media.preview : folderIcon" 
@@ -314,5 +315,15 @@ export default {
         padding: 10px;
         border-style: solid;
     }
+}
+.video-btn {
+    width: 0;
+	height: 0;
+	border-top: 20px solid transparent;
+	border-left: 30px solid #198754;
+	border-bottom: 20px solid transparent;
+    position: absolute;
+    top: 25%;
+    left: 40%;
 }
 </style>

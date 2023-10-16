@@ -14,7 +14,7 @@
                           <img :src="item.type == 'folder' ? '/storage/next-folder.png' : item.path" class="preview">
                         </template>
                         <template v-else>
-                          <video :src="item.path" class="preview" controls :poster="item.preview" preload="none"></video>
+                          <video ref="videoSource" :src="item.path" class="preview" controls :poster="item.preview" preload="none"></video>
                         </template>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
               <button type="button" class="btn btn-danger" @click="deleteItem">Delete</button>
               <button type="button" class="btn btn-primary" @click="rename">Rename</button>
               <button type="button" class="btn btn-info" @click="copyUrl">Copy Url</button>
-              <button type="button" class="btn btn-success" v-if="item.type == 'video'">Capture</button>
+              <button type="button" class="btn btn-success" v-if="item.type == 'video'" @click="captureThumb">Capture</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
@@ -67,6 +67,47 @@ export default {
     },
     copyUrl() {
       if (copy(this.item.path)) this.$toast.success('Url Copied');
+    },
+    captureThumb() {
+      if (this.item.type == 'video') {
+        let name = this.item.name;
+        let video = this.$refs.videoSource;
+        let w = video.videoWidth;
+        let h = video.videoHeight;
+
+        let canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, w, h);
+        
+        let dataURI = canvas.toDataURL('image/jpeg');        
+        this.$toast.info('Capturing Thumbnail ...');
+
+        this.request()
+          .post('media/' + this.item.folder_id + '/thumb', {
+            filepond: dataURI,
+            filename: name.substring(0, name.indexOf('.')),
+            video: this.item.id
+          })
+          .then(({ data }) => {
+            this.$emit('modalResponse');
+            this.$toast.success('Thumbnail Saved...');
+          })
+          .catch(err => {
+            console.log(err);
+            this.$toast.error('Something went wrong');
+          });
+      }
+    },
+
+    dataURLtoFile(dataurl, filename) {
+      var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], filename, { type: mime });
     }
   },
 }

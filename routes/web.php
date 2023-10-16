@@ -62,6 +62,7 @@ Route::prefix('vidmin')->group(function () {
          // Media Route
          Route::prefix('media')->controller(MediaController::class)->group(function () {
             Route::post('{id}/upload', 'upload');
+            Route::post('{id}/thumb', 'uploadThumbnail');
             Route::post('{id}', 'store');
             Route::delete('{id}', 'destroy');
          });
