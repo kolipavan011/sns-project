@@ -84,6 +84,10 @@ export default {
         let dataURI = canvas.toDataURL('image/jpeg');        
         this.$toast.info('Capturing Thumbnail ...');
 
+        if (dataURI.length < 125) {
+          return this.$toast.error('Please capture proper Thumbnail');
+        }
+
         this.request()
           .post('media/' + this.item.folder_id + '/thumb', {
             filepond: dataURI,
