@@ -154,12 +154,12 @@ export default {
                 .catch(error => console.log(error));
         },
         savePost() {
-            this.status = this.isPublished ? 'Updating' : 'Saving';
+            this.status = 'Saving';
 
             return this.request()
                 .post('/category/' + this.post.id, this.post)
                 .then(({ data }) => {
-                    this.status = this.isPublished ? 'Update' : 'Save';
+                    this.status = 'Save';
 
                     if (this.creatingPost) {
                         this.$router.push({ name: 'category-edit', params: { id: this.post.id } });
@@ -168,7 +168,7 @@ export default {
                 .catch(error => {
                     this.status = 'Error';
                     setTimeout(() => {
-                        this.status = this.isPublished ? 'Update' : 'Save';
+                        this.status = 'Save';
                     }, 3000);
                     console.log(error);
                 });
