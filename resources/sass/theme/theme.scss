@@ -1,0 +1,40 @@
+
+//color
+$white: #ffffff;
+$primary : #f0de36;
+$navbar-dark-color: $white;
+$navbar-dark-active-color: $primary;
+$navbar-dark-hover-color: $primary;
+
+//breadcrub
+$breadcrumb-divider: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E");
+
+// Badge
+$badge-padding-y: .50em;
+$badge-padding-x: .75em;
+
+// Custom Scss
+@import './custom';
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+a {
+    text-decoration: none;
+}
+
+// Post Card
+.featured__image {
+    width: 100%;
+    height: 250px;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    object-position: bottom;
+}
+
+//article
+
+.article__video {
+    width: 100%;
+    height: 90vh;
+    object-fit: contain;
+}

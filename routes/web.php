@@ -1,19 +1,21 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController as VidminCategory;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\PostController as VidminPost;
+use App\Http\Controllers\Admin\TagController as VidminTag;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
 use App\Http\Middleware\Authenticate;
-use App\Models\Category;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes (thems routes)
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -22,7 +24,15 @@ use App\Models\Category;
 |
 */
 
-Route::get('/', [ViewController::class, 'home']);
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/posts', [PostController::class, 'index']);
+Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.single');
+
+/*
+|--------------------------------------------------------------------------
+| Admin routes under vidmin control panel
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix('vidmin')->group(function () {
 
@@ -38,7 +48,7 @@ Route::prefix('vidmin')->group(function () {
       Route::prefix('api')->group(function () {
 
          // Post routes...
-         Route::prefix('posts')->controller(PostController::class)->group(function () {
+         Route::prefix('posts')->controller(VidminPost::class)->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
             Route::get('{id}', 'show');
@@ -68,7 +78,7 @@ Route::prefix('vidmin')->group(function () {
          });
 
          //Tag routes
-         Route::prefix('tags')->controller(TagController::class)->group(function () {
+         Route::prefix('tags')->controller(VidminTag::class)->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
             Route::get('{id}', 'show');
@@ -76,7 +86,7 @@ Route::prefix('vidmin')->group(function () {
          });
 
          //Category routes
-         Route::prefix('category')->controller(CategoryController::class)->group(function () {
+         Route::prefix('category')->controller(VidminCategory::class)->group(function () {
             Route::get('/', 'index');
             Route::get('create', 'create');
             Route::get('{id}', 'show');
