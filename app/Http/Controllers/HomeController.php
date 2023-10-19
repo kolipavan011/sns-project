@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -19,9 +19,14 @@ class HomeController extends Controller
             ->limit(5)
             ->get(['slug']);
 
+        $posts = Post::query()
+            ->latest()
+            ->paginate(16);
+
         return view('themes.home')->with([
             'category' => $category,
             'tag' => $tag,
+            'posts' => $posts
         ]);
     }
 }

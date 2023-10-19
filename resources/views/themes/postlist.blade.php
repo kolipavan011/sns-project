@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="my-4">
-    <div class="hero__section mb-4">
+    <div class="mb-4">
         <header>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -19,9 +19,11 @@
             @foreach ($posts as $post)
             <div class="col">
                 <div class="card">
+                    @isset($post->featured_image)
                     <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                         <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
                     </a>
+                    @endisset
                     <div class="card-body">
                         <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                             <h2 class="card-title h4">{{$post->title}}</h2>

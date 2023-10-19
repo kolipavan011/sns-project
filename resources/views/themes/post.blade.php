@@ -24,8 +24,8 @@
             </header>
         </div>
         <div class="videos__list my-4">
-            <div class="row d-flex row-cols-1 row-cols-md-2">
-                @foreach ($videos as $video)
+            <div class="row @if(count($videos) > 0) d-flex row-cols-1 g-3 row-cols-md-2 @endif">
+                @forelse ($videos as $video)
                 <div class="col">
                     <div class="card mb-4">
                         <figure class="mb-0">
@@ -37,7 +37,17 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">No Video found</h5>
+                            <p class="card-text">No Video found here. Stay tooned for new update till explore new whatsapp status videos</p>
+                            <a href="/" class="btn btn-primary">Go To Home</a>
+                        </div>
+                    </div>
+                </div>
+                @endforelse
             </div>
         </div>
         <div class="video__pagination mb-4">
@@ -60,9 +70,11 @@
                 @foreach ($relatedTag as $post)
                 <div class="col">
                     <div class="card">
+                        @isset($post->featured_image)
                         <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                             <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
                         </a>
+                        @endisset
                         <div class="card-body">
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h3">{{$post->title}}</h3>
@@ -89,9 +101,11 @@
                 @foreach ($relatedCat as $post)
                 <div class="col">
                     <div class="card">
+                        @isset($post->featured_image)
                         <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                             <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
                         </a>
+                        @endisset
                         <div class="card-body">
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h3">{{$post->title}}</h3>

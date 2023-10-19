@@ -29,7 +29,7 @@ class PostController extends Controller
             ->firstWhere('slug', $slug);
 
         $videos = $post->videos()
-            ->paginate(4);
+            ->paginate(14);
 
         $tagRelatedPost = Post::query()
             ->select('posts.*')
