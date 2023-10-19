@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Post;
-use App\Models\Tag;
-use Illuminate\Support\Facades\DB;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class PostController extends Controller
 {
@@ -19,6 +17,10 @@ class PostController extends Controller
 
         return view('themes.postlist')->with([
             'posts' => $post,
+            'SEOData' => new SEOData(
+                title: 'Explore Latest Whatsapp Status Videos - Storynstatus',
+                description: 'Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of words with others. Whatsapp Status Video to express your feeling and Status for share emotion',
+            ),
         ]);
     }
 
@@ -57,7 +59,11 @@ class PostController extends Controller
                 'post' => $post,
                 'videos' => $videos,
                 'relatedCat' => $catRelatedPost,
-                'relatedTag' => $tagRelatedPost
+                'relatedTag' => $tagRelatedPost,
+                'SEOData' => new SEOData(
+                    title: $post->meta['title'],
+                    description: $post->meta['description'],
+                ),
             ]);
         }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
+
 
 class CategoryController extends Controller
 {
@@ -16,6 +18,10 @@ class CategoryController extends Controller
 
         return view('themes.categorylist')->with([
             'posts' => $post,
+            'SEOData' => new SEOData(
+                title: 'Explore Whatsapp Status Videos Categories',
+                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam officiis',
+            ),
         ]);
     }
 
@@ -31,6 +37,10 @@ class CategoryController extends Controller
             return view('themes.category', [
                 'category' => $category,
                 'posts' => $posts,
+                'SEOData' => new SEOData(
+                    title: $category->meta['title'],
+                    description: $category->meta['description'],
+                ),
             ]);
         }
 

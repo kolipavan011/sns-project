@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,11 @@ class HomeController extends Controller
         return view('themes.home')->with([
             'category' => $category,
             'tag' => $tag,
-            'posts' => $posts
+            'posts' => $posts,
+            'SEOData' => new SEOData(
+                title: 'Explore Quotes, Shayari and Status - Storynstatus',
+                description: 'Explore our collection, find daily inspiration and share the power of words with others. Whatsapp Status Video to express your feeling and Status for share emotion',
+            ),
         ]);
     }
 }

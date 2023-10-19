@@ -10,8 +10,8 @@
                     <li class="breadcrumb-item active" aria-current="page">Posts</li>
                 </ol>
             </nav>
-            <h1 class="mb-3">Whatsapp Status Videos, Status Video Download</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam officiis harum molestiae repudiandae porro accusamus quibusdam, illo quod hic deleniti voluptas maxime.</p>
+            <h1 class="mb-3">Explore Latest Whatsapp Status Videos</h1>
+            <p>Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of words with others. Whatsapp Status Video to express your feeling and Status for share emotion</p>
         </header>
     </div>
     <div class="entries__section mb-4">

@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Tag</li>
                 </ol>
             </nav>
-            <h1 class="mb-3">Explore Whatsapp Status Videos Categories</h1>
+            <h1 class="mb-3">Explore Whatsapp Status Videos Tags</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam officiis harum molestiae repudiandae porro accusamus quibusdam, illo quod hic deleniti voluptas maxime.</p>
         </header>
     </div>

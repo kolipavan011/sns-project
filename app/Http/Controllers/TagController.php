@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 
 class TagController extends Controller
 {
@@ -16,6 +17,10 @@ class TagController extends Controller
 
         return view('themes.tagslist')->with([
             'posts' => $post,
+            'SEOData' => new SEOData(
+                title: 'Explore Whatsapp Status Videos Tags',
+                description: 'Tag Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam',
+            ),
         ]);
     }
 
@@ -31,6 +36,10 @@ class TagController extends Controller
             return view('themes.tag', [
                 'category' => $category,
                 'posts' => $posts,
+                'SEOData' => new SEOData(
+                    title: $category->meta['title'],
+                    description: $category->meta['description'],
+                ),
             ]);
         }
 
