@@ -27,6 +27,10 @@ use App\Http\Controllers\PostController;
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/posts', [PostController::class, 'index']);
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.single');
+Route::get('/tags', [PostController::class, 'index']);
+Route::get('/tags/{slug}', [PostController::class, 'show'])->name('tag.single');
+Route::get('/category', [PostController::class, 'index']);
+Route::get('/category/{slug}', [PostController::class, 'show'])->name('cat.single');
 
 /*
 |--------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 @extends('themes.layout')
 
 @section('content')
-<main class="my-4">
+<div class="my-4">
     <div class="hero__section mb-4">
         <header>
             <nav aria-label="breadcrumb">
@@ -36,5 +36,5 @@
     <div class="pagination__section">
         {{ $posts->onEachSide(1)->links() }}
     </div>
-</main>
+</div>
 @endsection

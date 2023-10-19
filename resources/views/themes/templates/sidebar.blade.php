@@ -1,4 +1,4 @@
-<aside>
+<aside class="my-4">
     <div class="sidebar__widget mb-4">
         <h2 class="widget__title mb-3">Category</h2>
         @php
@@ -23,13 +23,13 @@
         <div class="widget__content">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item border-0 px-0">
-                    <a class="text-dark fs-5">Privacy Policy</a>
+                    <a class="text-dark fs-6">Privacy Policy</a>
                 </li>
                 <li class="list-group-item border-0 px-0">
-                    <a class="text-dark fs-5">Term & Condition</a>
+                    <a class="text-dark fs-6">Term & Condition</a>
                 </li>
                 <li class="list-group-item border-0 px-0">
-                    <a class="text-dark fs-5">DMCA policy</a>
+                    <a class="text-dark fs-6">DMCA policy</a>
                 </li>
             </ul>
         </div>

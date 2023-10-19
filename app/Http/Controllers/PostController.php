@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -29,10 +31,33 @@ class PostController extends Controller
         $videos = $post->videos()
             ->paginate(4);
 
+        $tagRelatedPost = Post::query()
+            ->select('posts.*')
+            ->join('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
+            ->distinct('posts.id')
+            ->where('posts.published_at', '!=', null)
+            ->whereIn('posts_tags.tag_id', $post->tags->pluck('id'))
+            ->limit(10)
+            ->get();
+
+        $catRelatedPost = Post::query()
+            ->select('posts.*')
+            ->join('posts_category', 'posts_category.post_id', '=', 'posts.id')
+            ->distinct('posts.id')
+            ->where('posts.published_at', '!=', null)
+            ->whereNotIn('posts.id', $tagRelatedPost->pluck('id'))
+            ->whereIn('posts_category.category_id', $post->category->pluck('id'))
+            ->limit(10)
+            ->get();
+
+
+
         if ($post) {
             return view('themes.post', [
                 'post' => $post,
-                'videos' => $videos
+                'videos' => $videos,
+                'relatedCat' => $catRelatedPost,
+                'relatedTag' => $tagRelatedPost
             ]);
         }
 
