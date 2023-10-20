@@ -11,6 +11,7 @@ use App\Http\Controllers\ViewController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TagController;
 
@@ -32,6 +33,8 @@ Route::get('/tags', [TagController::class, 'index']);
 Route::get('/tags/{slug}', [TagController::class, 'show'])->name('tag.single');
 Route::get('/category', [CategoryController::class, 'index']);
 Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('cat.single');
+Route::get('/pages/{slug}', [PageController::class, 'index']);
+
 
 /*
 |--------------------------------------------------------------------------

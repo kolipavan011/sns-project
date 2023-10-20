@@ -49,7 +49,7 @@
                     <a class="text-dark fs-6" href="/pages/term-and-condition">Term & Condition</a>
                 </li>
                 <li class="list-group-item border-0 px-0">
-                    <a class="text-dark fs-6" href="/pages/dmca-policy">DMCA policy</a>
+                    <a class="text-dark fs-6" href="/pages/disclaimer">Disclaimer</a>
                 </li>
             </ul>
         </div>
