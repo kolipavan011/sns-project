@@ -10,6 +10,7 @@ class TagController extends Controller
     function index()
     {
         $post = Tag::query()
+            ->select('id', 'slug', 'featured_image', 'title', 'summary')
             ->latest()
             ->paginate(12);
 

@@ -29,6 +29,8 @@
     </main>
     <!-- footer -->
     @include('themes.templates.footer')
+    <!-- include js files here -->
+    @vite('resources/assets/theme.js')
 </body>
 
 </html>

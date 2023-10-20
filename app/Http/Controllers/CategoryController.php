@@ -11,6 +11,7 @@ class CategoryController extends Controller
     function index()
     {
         $post = Category::query()
+            ->select('id', 'slug', 'featured_image', 'title', 'summary')
             ->latest()
             ->paginate(12);
 

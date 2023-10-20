@@ -2,20 +2,31 @@
     <div class="sidebar__widget mb-4">
         <h2 class="widget__title mb-3">Category</h2>
         @php
-        $tags = App\Models\Tag::query()->latest()->get(['slug','title']);
+        $category = App\Models\Category::query()->latest()->get(['slug','title']);
         @endphp
         <div class="widget__content">
-            @foreach ($tags as $tag)
-            <a title="{{ $tag->title }}" type="button" class="btn btn-primary mb-2">{{ $tag->title}}</a>
-            @endforeach
+            @forelse ($category as $cat)
+            <a href="{{ route('cat.single',['slug'=>$cat->slug]) }}" title="{{ $cat->title }}" type="button" class="btn btn-primary mb-2">{{ $cat->title}}</a>
+            @empty
+            <div class="my-4 text-secondary">
+                <p>There’s no content to show here yet.</p>
+            </div>
+            @endforelse
         </div>
     </div>
     <div class="sidebar__widget mb-4">
         <h2 class="widget__title mb-3">Tags</h2>
+        @php
+        $tags = App\Models\Tag::query()->latest()->get(['slug','title']);
+        @endphp
         <div class="widget__content">
-            @foreach ($tags as $tag)
-            <a type="button" class="btn btn-primary mb-2">{{ $tag->title}}</a>
-            @endforeach
+            @forelse ($tags as $tag)
+            <a href="{{ route('tag.single',['slug'=>$tag->slug]) }}" type="button" class="btn btn-primary mb-2" title="{{ $tag->title }}">{{ $tag->title}}</a>
+            @empty
+            <div class="my-4 text-secondary">
+                <p>There’s no content to show here yet.</p>
+            </div>
+            @endforelse
         </div>
     </div>
     <div class="sidebar__widget mb-4">

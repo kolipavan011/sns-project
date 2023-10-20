@@ -10,6 +10,7 @@ class PostController extends Controller
     function index()
     {
         $post = Post::query()
+            ->select('id', 'slug', 'featured_image', 'title', 'summary')
             ->latest()
             ->paginate(12);
 

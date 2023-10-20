@@ -12,15 +12,18 @@ class HomeController extends Controller
     function home()
     {
         $category = Category::query()
+            ->select('id', 'slug', 'title')
             ->latest()
             ->limit(5)
             ->get(['title', 'slug']);
         $tag = Tag::query()
+            ->select('id', 'slug', 'title')
             ->latest()
             ->limit(5)
             ->get(['slug']);
 
         $posts = Post::query()
+            ->select('id', 'slug', 'featured_image', 'title', 'summary')
             ->latest()
             ->paginate(16);
 
