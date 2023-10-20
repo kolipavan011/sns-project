@@ -33,7 +33,7 @@
                         </figure>
                         <div class="card-body">
                             <a download class="btn btn-primary mb-3" href="{{ $video->path }}">Download Status Video</a>
-                            <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, aut.</p>
+                            <p>{{$video->name}}</p>
                         </div>
                     </div>
                 </div>

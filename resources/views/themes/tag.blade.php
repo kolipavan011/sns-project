@@ -30,7 +30,7 @@
                             <a class="text-decoration-none text-dark" href="{{ route('tag.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h3">{{$post->title}}</h3>
                             </a>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">{{$post->summary}}</p>
                         </div>
                     </div>
                 </div>
