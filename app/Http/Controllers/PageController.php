@@ -21,6 +21,6 @@ class PageController extends Controller
             ]);
         }
 
-        return response("", 404);
+        return abort(404, "Page not found");
     }
 }
