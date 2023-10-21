@@ -13,6 +13,7 @@ import TagEdit from '../view/TagEdit.vue';
 import CategoryEdit from '../view/CategoryEdit.vue';
 import PostView from '../view/PostView.vue';
 import Profile from '../view/Profile.vue';
+import Setting from '../view/Setting.vue';
 
 
 // 2. Define some routes
@@ -88,7 +89,6 @@ const routes = [
     path: '/vidbot',
     name : 'vidbot',
     component: VidBot,
-    meta: { auth: true}
   },
   {
     path: '/user',
@@ -96,14 +96,14 @@ const routes = [
     component: PostsList,
   },
   {
-    path: '/setting',
-    name : 'setting',
-    component: PostsList,
-  },
-  {
     path: '/profile',
     name : 'profile',
     component: Profile,
+  },
+  {
+    path: '/setting',
+    name : 'setting',
+    component: Setting,
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },
 ]

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ViewController extends Controller
@@ -14,10 +15,13 @@ class ViewController extends Controller
     function index()
     {
         $user = request()->user();
+        $category = Category::query()
+            ->get(['slug', 'title']);
 
         return view('vidmin')->with([
             'jsVars' => [
                 'version' => '1.0.0',
+                'category' => $category,
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
