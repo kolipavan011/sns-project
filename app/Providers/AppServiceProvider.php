@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Setting;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,5 +22,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrapFive();
+
+        $this->app->singleton(Setting::class, function () {
+            return Setting::make(storage_path('app/settings.json'));
+        });
     }
 }
