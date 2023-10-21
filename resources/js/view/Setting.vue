@@ -4,45 +4,46 @@
             <PageHeader title="Setting"></PageHeader>
         </template>
         <template v-slot:content>
-            <!-- No Media Found -->
-            <div class="row col-12">
-                <div class="card border-0 px-0 mb-4">
-                  <div class="card-body">
-                    <h5 class="card-title">Website</h5>
-                    <p class="card-text text-secondary">Change setting for website</p>
-                  </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Website Favicon Url</label>
-                        <input type="email" class="form-control">
+            <main v-if="ready">
+                <div class="row col-12">
+                    <div class="card border-0 px-0 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Website</h5>
+                        <p class="card-text text-secondary">Change setting for website</p>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control">
                     </div>
                 </div>
-                <div class="col-12 col-sm-6">
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Header Navbar</label>
-                        <VueMultiselect
-                         v-model="selected"
-                         :options="options"
-                         :multiple="true"
-                         :taggable="true"
-                         label="title"
-                         track-by="slug"
-                        >
-                        </VueMultiselect>
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Website Favicon Url</label>
+                            <input v-model="setting.favicon" type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Website Logo</label>
+                            <input v-model="setting.logo" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Header Navbar</label>
+                            <VueMultiselect
+                            v-model="setting.navbar"
+                            :options="options"
+                            :multiple="true"
+                            :taggable="true"
+                            :close-on-select="false"
+                            label="title"
+                            track-by="slug"
+                            >
+                            </VueMultiselect>
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control">
+                        <button type="submit" class="btn btn-primary" @click="update">{{loadingText}}</button>
                     </div>
                 </div>
-            </div>
+            </main>
         </template>
     </PageMain>
 </template>
@@ -61,23 +62,21 @@ export default {
     },
     data() {
         return {
-            email: '',
-            name: '',
+            ready:false,
             loadingText: 'Update',
             options: [],
-            selected:null,
+            setting: {
+                favicon: null,
+                logo: null,
+                navbar: []
+            }
         }
     },
     methods: {
-        login() {
+        update() {
             this.loadingText = 'Updating...';
-            this.request().post('/user', {
-                email: this.email,
-                name: this.name,
-            })
+            this.request().post('/setting/store', this.setting)
                 .then(resp => {
-                    storynstatus.user.name = this.name;
-                    storynstatus.user.email = this.email;
                     this.$toast.success('Updated ..!');
                     this.loadingText = 'Update';
                 })
@@ -86,11 +85,21 @@ export default {
                     this.$toast.error(err.message);
                 });
         },
+        fetchSetting() {
+            this.ready = false;
+            this.request().get('/setting')
+                .then(({data}) => {
+                    this.setting = data.setting;
+                    this.options = data.category;
+                    this.ready = true;
+                })
+                .catch(err => {
+                    this.$toast.error(err.message);
+                });
+        },
     },
     created() {
-        let { name, email } = storynstatus.user;
-        this.email = email;
-        this.name = name;
+        this.fetchSetting();
         this.options = storynstatus.category;
 
     }

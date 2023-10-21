@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController as VidminCategory;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as VidminPost;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\TagController as VidminTag;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\LoginController;
@@ -102,6 +103,12 @@ Route::prefix('vidmin')->group(function () {
             Route::get('create', 'create');
             Route::get('{id}', 'show');
             Route::post('{id}', 'store');
+         });
+
+         //Setting routes
+         Route::prefix('setting')->controller(SettingController::class)->group(function () {
+            Route::get('/', 'index');
+            Route::post('store', 'store');
          });
       });
 
