@@ -15,7 +15,8 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end" ref="dropdown" aria-labelledby="defaultDropdown">
-                    <li><a class="dropdown-item">Pavan Koli</a></li>
+                    <li><a class="dropdown-item">{{user}}</a></li>
+                    <li><router-link to="/profile" class="dropdown-item">Edit Profile</router-link></li>
                     <slot name="option"></slot>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="#" @click="logout">Logout</a></li>
@@ -33,7 +34,8 @@ export default {
     props: ['title'],
     data() {
         return {
-            dropdown : null,
+            dropdown: null,
+            user:'',
         }
     },
     methods: {
@@ -46,6 +48,9 @@ export default {
     },
     mounted() {
         this.dropdown = new Dropdown(this.$refs.dropdown,{autoClose:'outside'});
+    },
+    created() {
+        this.user = storynstatus.user.name;
     }
 }
 </script>

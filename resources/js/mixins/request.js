@@ -22,7 +22,7 @@ export default {
                     case 401:
                     case 405:
                         // TODO: This check needs to be rewritten
-                        window.location.href = `vidmin/logout`;
+                        //window.location.href = `vidmin/logout`;
                         break;
                     default:
                         break;

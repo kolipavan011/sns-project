@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as VidminPost;
 use App\Http\Controllers\Admin\TagController as VidminTag;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
@@ -54,6 +55,8 @@ Route::prefix('vidmin')->group(function () {
 
       //Api Routes
       Route::prefix('api')->group(function () {
+
+         Route::post('user', [UserController::class, 'store']);
 
          // Post routes...
          Route::prefix('posts')->controller(VidminPost::class)->group(function () {

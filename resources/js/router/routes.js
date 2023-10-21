@@ -12,6 +12,7 @@ import PostEdit from '../view/PostEdit.vue';
 import TagEdit from '../view/TagEdit.vue';
 import CategoryEdit from '../view/CategoryEdit.vue';
 import PostView from '../view/PostView.vue';
+import Profile from '../view/Profile.vue';
 
 
 // 2. Define some routes
@@ -98,6 +99,11 @@ const routes = [
     path: '/setting',
     name : 'setting',
     component: PostsList,
+  },
+  {
+    path: '/profile',
+    name : 'profile',
+    component: Profile,
   },
   { path: '/:pathMatch(.*)*', name: 'not-found', redirect: '/dash' },
 ]

@@ -13,8 +13,17 @@ class ViewController extends Controller
      */
     function index()
     {
-        return view('vidmin')->with(['jsVars' => [
-            'version' => '1.0.0'
-        ]]);
+        $user = request()->user();
+
+        return view('vidmin')->with([
+            'jsVars' => [
+                'version' => '1.0.0',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]
+            ]
+        ]);
     }
 }

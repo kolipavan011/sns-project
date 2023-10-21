@@ -11,6 +11,9 @@
 
 <body class="body">
     <div id="app"></div>
+    <script>
+        const storynstatus = @json($jsVars);
+    </script>
     @vite('resources/js/app.js')
 </body>
 
