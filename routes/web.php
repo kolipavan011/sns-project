@@ -44,7 +44,7 @@ Route::get('/pages/{slug}', [PageController::class, 'index']);
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('vidmin')->group(function () {
+Route::prefix('vidmin')->middleware('doNotCacheResponse')->group(function () {
 
    // Auth Controller
    Route::get('login', [LoginController::class, 'create'])->name('vidmin.login');

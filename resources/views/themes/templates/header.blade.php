@@ -15,7 +15,7 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         @foreach (setting()->get('navbar') as $item)
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" aria-current="page" href="#">{{$item['title']}}</a>
+                            <a class="nav-link text-uppercase" aria-current="page" href="{{ route('cat.single',['slug'=>$item['slug']]) }}">{{$item['title']}}</a>
                         </li>
                         @endforeach
                 </div>
