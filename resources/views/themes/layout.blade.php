@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {!! seo($SEOData) !!}
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
+    <link rel="shortcut icon" href="{{ setting()->get('favicon','favicon.ico') }}" type="image/*">
     @vite('resources/sass/theme/theme.scss')
 
 </head>

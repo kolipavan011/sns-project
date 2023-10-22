@@ -17,6 +17,7 @@ class SettingController extends Controller
 
     public function store()
     {
+
         return response()->json(setting()
             ->put(request()->all())
             ->all());
