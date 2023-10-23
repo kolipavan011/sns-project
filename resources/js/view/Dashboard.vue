@@ -4,23 +4,31 @@
       <PageHeader title="Dashboard"></PageHeader>
     </template>
     <template v-slot:content>
-      <div class="row row-cols-1 row-cols-sm-2 g-4">
+      <div class="row row-cols-1 row-cols-sm-3 g-4">
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <h5 class="card-title">{{posts}}</h5>
+              <p class="card-text text-secondary">Totoal Posts</p>
             </div>
           </div>
         </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <h5 class="card-title">{{ category }}</h5>
+              <p class="card-text text-secondary">Total Categories</p>
             </div>
           </div>
         </div>
+        <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{tags}}</h5>
+                <p class="card-text text-secondary">Total Tags</p>
+              </div>
+            </div>
+          </div>
       </div>
     </template>
   </PageMain>
@@ -34,6 +42,32 @@ export default {
   components: {
     PageMain,
     PageHeader
-  }
+  },
+  data() {
+    return {
+      posts:0,
+      category:0,
+      tags: 0,
+      isReady:false
+    }
+  },
+  methods: {
+    fetchData() {
+      return this.request()
+        .get('/dash')
+        .then(({ data }) => {
+          this.posts = data.posts;
+          this.category = data.category;
+          this.tags = data.tags;
+        })
+        .catch(() => {
+          this.$toast.error('Something Wents wrong');
+        });
+    }
+  },
+  async created() {
+    await Promise.all([this.fetchData()]);
+    this.isReady = true;
+  },
 }
 </script>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController as VidminCategory;
+use App\Http\Controllers\Admin\DashController;
 use App\Http\Controllers\Admin\FolderController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\PostController as VidminPost;
@@ -60,6 +61,7 @@ Route::prefix('vidmin')->middleware('doNotCacheResponse')->group(function () {
       //Api Routes
       Route::prefix('api')->group(function () {
 
+         Route::get('dash', [DashController::class, 'index']);
          Route::post('user', [UserController::class, 'store']);
 
          // Post routes...
