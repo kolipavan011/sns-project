@@ -7,17 +7,17 @@
             <header>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item"><a href="/posts">Posts</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $post->title }}</li>
                     </ol>
                 </nav>
                 <h1 class="mb-4">{{ $post->title }}</h1>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam nihil ducimus molestias aliquam sit perferendis facilis at neque quis nam.</p>
+                <p>{{ $post->summary }}</p>
                 <ul class="list-group list-group-horizontal flex-wrap">
                     <li class="list-group-item border-0 p-0">
                         @foreach ($post->category as $cat)
-                        <a rel="tag" href="#" class="badge bg-primary mb-1">{{$cat->title}}</a>
+                        <a rel="tag" href="{{ route('cat.single',['slug'=>$cat->slug]) }}" class="badge bg-primary mb-1">{{$cat->title}}</a>
                         @endforeach
                     </li>
                 </ul>
@@ -62,7 +62,7 @@
             <ul class="list-group list-group-horizontal flex-wrap">
                 <li class="list-group-item border-0 p-0">
                     @foreach ($post->tags as $tag)
-                    <a href="#" class="btn btn-primary mb-2">{{$tag->title}}</a>
+                    <a href="{{ route('tag.single',['slug'=>$tag->slug]) }}" class="btn btn-primary mb-2">{{$tag->title}}</a>
                     @endforeach
                 </li>
             </ul>
@@ -79,7 +79,7 @@
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h3">{{$post->title}}</h3>
                             </a>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">{{$post->summary}}</p>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
             <ul class="list-group list-group-horizontal flex-wrap">
                 <li class="list-group-item border-0 p-0">
                     @foreach ($post->category as $cat)
-                    <a href="#" class="btn btn-primary mb-2">{{$cat->title}}</a>
+                    <a href="{{ route('cat.single',['slug'=>$cat->slug]) }}" class="btn btn-primary mb-2">{{$cat->title}}</a>
                     @endforeach
                 </li>
             </ul>
@@ -110,7 +110,7 @@
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h3">{{$post->title}}</h3>
                             </a>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <p class="card-text">{{$post->summary}}</p>
                         </div>
                     </div>
                 </div>

@@ -7,13 +7,13 @@
             <header>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
                         <li class="breadcrumb-item"><a href="/tags">Tags</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ $category->title }}</li>
                     </ol>
                 </nav>
-                <h1 class="mb-4">{{ $category->title }}</h1>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam nihil ducimus molestias aliquam sit perferendis facilis at neque quis nam.</p>
+                <h1 class="mb-4">{{ $category->meta['title'] }}</h1>
+                <p>{{ $category->summary }}</p>
             </header>
         </div>
         <div class="posts_list my-4">
@@ -27,8 +27,8 @@
                         </a>
                         @endisset
                         <div class="card-body">
-                            <a class="text-decoration-none text-dark" href="{{ route('tag.single',['slug'=> $post->slug]) }}">
-                                <h3 class="card-title h3">{{$post->title}}</h3>
+                            <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
+                                <h2 class="card-title h4">{{$post->title}}</h2>
                             </a>
                             <p class="card-text">{{$post->summary}}</p>
                         </div>

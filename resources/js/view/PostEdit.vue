@@ -17,23 +17,41 @@
                     <div class="col-md-6">
                         <div class="mb-4">
                             <label class="form-label">Title</label>
-                            <input v-model="post.title" type="text" class="form-control" placeholder="Post title">
+                            <input @input.native="updatePost" v-model="post.title" type="text" class="form-control" placeholder="Post title">
                         </div>
                         <div class="mb-4">
                             <label for="exampleInputEmail1" class="form-label">Slug</label>
                             <input @change="slugify" v-model="post.slug" type="email" class="form-control" placeholder="Post slug ...">
                         </div>
                         <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Category</label>
-                            <select v-model="post.category" class="form-control" multiple>
-                                <option :value="opt.id" v-for="opt in category">{{ opt.title }}</option>
-                            </select>
+                            <label class="form-label">Summary</label>
+                            <textarea v-model="post.summary" class="form-control" rows="3" placeholder="Seo Description"></textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label">Tags</label>
-                            <select v-model="post.tags" class="form-control" multiple>
-                                <option :value="opt.id" v-for="opt in tags">{{ opt.title }}</option>
-                            </select>
+                            <label class="form-label">Category</label>
+                            <VueMultiselect
+                                v-model="post.category"
+                                :options="category"
+                                :multiple="true"
+                                :taggable="true"
+                                :close-on-select="false"
+                                label="title"
+                                track-by="slug"
+                            >
+                            </VueMultiselect>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Tags</label>
+                            <VueMultiselect
+                                v-model="post.tags"
+                                :options="tags"
+                                :multiple="true"
+                                :taggable="true"
+                                :close-on-select="false"
+                                label="title"
+                                track-by="slug"
+                            >
+                            </VueMultiselect>
                         </div>
                         
                     </div>
@@ -62,7 +80,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <div class="mb-4">
+                        <div class="mb-4 vidmin__editor">
                             <vue-editor v-model="post.body" placeholder="Write Something ..." :editorToolbar="customToolbar"></vue-editor>
                         </div>
                     </div>
@@ -77,6 +95,8 @@ import PageHeader from '../components/PageHeader.vue';
 import { VueEditor } from "vue3-editor";
 import get from "lodash/get";
 import debounce from 'lodash/debounce';
+import VueMultiselect from 'vue-multiselect';
+
 
 
 export default {
@@ -85,6 +105,7 @@ export default {
         PageMain,
         PageHeader,
         VueEditor,
+        VueMultiselect
     },
 
     watch: {
@@ -120,6 +141,7 @@ export default {
                 title: null,
                 slug: null,
                 featured_image: null,
+                summary: null,
                 body: null,
                 published_at:null,
                 meta: {
@@ -144,9 +166,10 @@ export default {
                     this.post.id = data.post.id;
                     this.post.title = get(data.post, 'title', '');
                     this.post.slug = get(data.post, 'slug', '');
+                    this.post.summary = get(data.post, 'summary', '');
                     this.post.body = get(data.post, 'body', '');
-                    this.post.category = get(data.post, 'category', []).map(item => item.id);
-                    this.post.tags = get(data.post, 'tags', []).map(item => item.id);
+                    this.post.category = get(data.post, 'category', []);
+                    this.post.tags = get(data.post, 'tags', []);
                     this.post.published_at = get(data.post, 'published_at', null);
                     this.post.featured_image = get(data.post, 'featured_image', '');
                     this.post.meta.title = get(data.post.meta, 'title', '');
@@ -166,6 +189,9 @@ export default {
                 .post('/posts/' + this.post.id, this.post)
                 .then(({ data }) => {
                     this.status = this.isPublished ? 'Update' : 'Save';
+                    if (this.creatingPost) {
+                        this.$router.push({ name: 'post-edit', params: { id: this.post.id } });
+                    }
                 })
                 .catch(error => {
                     this.status = 'Error';

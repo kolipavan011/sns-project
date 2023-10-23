@@ -59,8 +59,8 @@ class PostController extends Controller
     public function show(string $id): JsonResponse
     {
         $posts = Post::query()
-            ->with('tags:id,title')
-            ->with('category:id,title')
+            ->with('tags:id,title,slug')
+            ->with('category:id,title,slug')
             ->findOrFail($id);
 
         $tags = Tag::query()->get(['id', 'slug', 'title']);
@@ -135,15 +135,15 @@ class PostController extends Controller
         }
 
         $post->fill($data);
-        $post->user_id = $post->user_id ?? request()->user('canvas')->id;
+        $post->user_id = $post->user_id ?? request()->user()->id;
         $post->save();
 
         $tagsToSync = collect($request->input('tags', []))->map(function ($tag) {
-            return (string) $tag;
+            return (string) $tag['id'];
         })->toArray();
 
         $categoryToSync = collect($request->input('category', []))->map(function ($category) {
-            return (string) $category;
+            return (string) $category['id'];
         })->toArray();
 
         $post->tags()->sync($tagsToSync);

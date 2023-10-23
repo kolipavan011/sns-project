@@ -24,6 +24,7 @@ class HomeController extends Controller
 
         $posts = Post::query()
             ->select('id', 'slug', 'featured_image', 'title', 'summary')
+            ->where('published_at', '!=', null)
             ->latest()
             ->paginate(16);
 

@@ -34,6 +34,7 @@ class PostRequest extends FormRequest
             ],
             'title' => 'required',
             'body' => 'nullable|string',
+            'summary' => 'nullable|string',
             'published_at' => 'nullable|date',
             'featured_image' => 'nullable|string',
             'meta' => 'nullable|array',

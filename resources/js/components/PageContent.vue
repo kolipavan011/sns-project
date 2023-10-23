@@ -3,9 +3,6 @@
         <!-- toolbar -->
         <div class="page__tool mb-5">
             <div class="d-flex justify-content-end">
-                <div class="me-auto">
-                    <a type="button" class="btn btn-primary text-uppercase fw-bold me-2">Add</a>
-                </div>
                 <div class="ms-2" v-if="uri == '/posts'">
                     <select v-model="status" class="form-select" @change="fetchList(1)">
                         <option selected value="published">Published</option>

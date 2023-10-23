@@ -30,6 +30,11 @@
                             <input v-model="post.featured_image" type="text" class="form-control"
                                 placeholder="Add Feature Image Url">
                         </div>
+                        <div class="mb-4">
+                                <label for="exampleInputPassword1" class="form-label">Summay</label>
+                                <textarea v-model="post.summary" class="form-control" rows="3"
+                                    placeholder="Summay"></textarea>
+                            </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-4">
@@ -119,6 +124,7 @@ export default {
                 slug: null,
                 featured_image: null,
                 body: null,
+                summary: null,
                 published_at: null,
                 meta: {
                     title: null,
@@ -142,6 +148,7 @@ export default {
                     this.post.title = get(data.post, 'title', '');
                     this.post.slug = get(data.post, 'slug', '');
                     this.post.body = get(data.post, 'body', '');
+                    this.post.summary = get(data.post, 'summary', '');
                     this.post.featured_image = get(data.post, 'featured_image', '');
                     this.post.meta.title = get(data.post.meta, 'title', '');
                     this.post.meta.description = get(data.post.meta, 'description', '');

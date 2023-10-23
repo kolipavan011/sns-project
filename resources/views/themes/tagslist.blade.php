@@ -6,7 +6,7 @@
         <header>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('home')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Tag</li>
                 </ol>
             </nav>
@@ -26,7 +26,7 @@
                     @endisset
                     <div class="card-body">
                         <a class="text-decoration-none text-dark" href="{{ route('tag.single',['slug'=> $post->slug]) }}">
-                            <h3 class="card-title h3">{{$post->title}}</h3>
+                            <h2 class="card-title h4">{{$post->meta['title']}}</h2>
                         </a>
                         <p class="card-text">{{$post->summary}}</p>
                     </div>

@@ -11,11 +11,9 @@ class CategoryController extends Controller
     function index()
     {
         $post = Category::query()
-            ->select('id', 'slug', 'featured_image', 'title', 'summary')
+            ->select('id', 'slug', 'featured_image', 'summary', 'meta')
             ->latest()
             ->paginate(12);
-
-        // dd($post);
 
         return view('themes.categorylist')->with([
             'posts' => $post,
@@ -30,6 +28,10 @@ class CategoryController extends Controller
     {
         $category = Category::query()
             ->firstWhere('slug', $slug);
+
+        if (!$category) {
+            return abort(404);
+        }
 
         $posts = $category->post()
             ->paginate(14);

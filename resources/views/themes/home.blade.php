@@ -30,7 +30,7 @@
                     @endisset
                     <div class="card-body">
                         <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                            <h3 class="card-title h3">{{$post->title}}</h3>
+                            <h2 class="card-title h4">{{$post->title}}</h2>
                         </a>
                         <p class="card-text">{{ $post->summary }}</p>
                     </div>
@@ -42,7 +42,6 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">No posts found</h5>
                         <p class="card-text">No posts found here. Stay tooned for new update till explore new whatsapp status videos</p>
-                        <a href="/" class="btn btn-primary">Go To Home</a>
                     </div>
                 </div>
             </div>

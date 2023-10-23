@@ -11,6 +11,7 @@ class PostController extends Controller
     {
         $post = Post::query()
             ->select('id', 'slug', 'featured_image', 'title', 'summary')
+            ->where('published_at', '!=', null)
             ->latest()
             ->paginate(12);
 
@@ -29,7 +30,12 @@ class PostController extends Controller
     {
         $post = Post::query()
             ->with('category', 'tags')
+            ->where('published_at', '!=', null)
             ->firstWhere('slug', $slug);
+
+        if (!$post) {
+            return abort(404);
+        }
 
         $videos = $post->videos()
             ->paginate(14);
@@ -39,6 +45,7 @@ class PostController extends Controller
             ->join('posts_tags', 'posts_tags.post_id', '=', 'posts.id')
             ->distinct('posts.id')
             ->where('posts.published_at', '!=', null)
+            ->where('posts.id', '!=', $post->id)
             ->whereIn('posts_tags.tag_id', $post->tags->pluck('id'))
             ->limit(10)
             ->get();
@@ -49,6 +56,7 @@ class PostController extends Controller
             ->distinct('posts.id')
             ->where('posts.published_at', '!=', null)
             ->whereNotIn('posts.id', $tagRelatedPost->pluck('id'))
+            ->where('posts.id', '!=', $post->id)
             ->whereIn('posts_category.category_id', $post->category->pluck('id'))
             ->limit(10)
             ->get();

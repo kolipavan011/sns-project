@@ -34,6 +34,7 @@ class CategoryRequest extends FormRequest
             ],
             'title' => 'required',
             'body' => 'nullable|string',
+            'summary' => 'nullable|string',
             'featured_image' => 'nullable|string',
             'meta' => 'nullable|array',
         ];
