@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f45d91a786d36067736a89dba1b8392a",
+    "content-hash": "54f183ab2708444fae461a08bf5f84e0",
     "packages": [
         {
             "name": "brick/math",
@@ -6309,6 +6309,60 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "xidanko/update-manager",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/XiDanko/update-manger.git",
+                "reference": "91a234428501fcdc7a011b8a834aa53761caae76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/XiDanko/update-manger/zipball/91a234428501fcdc7a011b8a834aa53761caae76",
+                "reference": "91a234428501fcdc7a011b8a834aa53761caae76",
+                "shasum": ""
+            },
+            "require": {
+                "ext-zip": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "XiDanko\\UpdateManager\\UpdateManagerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "XiDanko\\UpdateManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jalal Al-Mussawi",
+                    "email": "xidanko07@gmail.com"
+                }
+            ],
+            "description": "Update manager for laravel applications.",
+            "keywords": [
+                "auto update",
+                "laravel",
+                "self update",
+                "update manger"
+            ],
+            "support": {
+                "issues": "https://github.com/XiDanko/update-manger/issues",
+                "source": "https://github.com/XiDanko/update-manger/tree/v1.0.5"
+            },
+            "time": "2023-10-16T18:41:30+00:00"
         }
     ],
     "packages-dev": [
