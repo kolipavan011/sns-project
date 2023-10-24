@@ -105,7 +105,7 @@ class PostController extends Controller
         $posts->videos()
             ->sync($videos);
 
-        ResponseCache::forget("/posts/$posts->slug");
+        ResponseCache::clear();
 
         return response()->json(['msg' => 'success']);
     }
@@ -120,6 +120,8 @@ class PostController extends Controller
 
             $posts->videos()
                 ->detach($videoID);
+
+            ResponseCache::clear();
         }
 
         return response()->json(['msg' => 'success']);
