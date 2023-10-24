@@ -60,6 +60,7 @@ class SitemapController extends Controller
         return Post::query()
             ->where('published_at', '!=', null)
             ->latest()
+            ->where('published_at', '!=', null)
             ->get(['slug', 'updated_at'])
             ->map(function ($item) {
                 return [
