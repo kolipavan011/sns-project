@@ -18,7 +18,7 @@ class TagController extends Controller
             'posts' => $post,
             'SEOData' => new SEOData(
                 title: 'Explore Whatsapp Status Videos Tags',
-                description: 'Tag Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam',
+                description: 'Explore our tags of Latest Whatsapp Status, find daily inspiration and share the power of videos with others. Whatsapp Status Video to express your feeling and share emotion',
             ),
         ]);
     }

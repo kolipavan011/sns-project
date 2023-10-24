@@ -11,7 +11,7 @@
                 </ol>
             </nav>
             <h1 class="mb-3">Explore Whatsapp Status Videos Tags</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam officiis harum molestiae repudiandae porro accusamus quibusdam, illo quod hic deleniti voluptas maxime.</p>
+            <p>Explore our tags of Latest Whatsapp Status, find daily inspiration and share the power of videos with others. Whatsapp Status Video to express your feeling and share emotion</p>
         </header>
     </div>
     <div class="entries__section mb-4">

@@ -11,7 +11,7 @@
                 </ol>
             </nav>
             <h1 class="mb-3">Explore Latest Whatsapp Status Videos</h1>
-            <p>Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of words with others. Whatsapp Status Video to express your feeling and Status for share emotion</p>
+            <p>Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of videos with others. Whatsapp Status Video to express your feeling and share emotion</p>
         </header>
     </div>
     <div class="entries__section mb-4">

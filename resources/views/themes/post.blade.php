@@ -57,7 +57,7 @@
         </div>
         <!-- similar videos related to tags -->
         <div class="post__tags mb-4">
-            <h2 class="mb-3">{{$post->title}} Similar Whatsapp Status</h2>
+            <h2 class="mb-3 h4">{{$post->title}} Similar Whatsapp Status</h2>
             <p>This whatsapp status videos belongs to tags given below. Here you can get similar videos related to that tags. explore some of the best whats app videos.</p>
             <ul class="list-group list-group-horizontal flex-wrap">
                 <li class="list-group-item border-0 p-0">
@@ -77,7 +77,7 @@
                         @endisset
                         <div class="card-body">
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                                <h3 class="card-title h3">{{$post->title}}</h3>
+                                <h3 class="card-title h4">{{$post->title}}</h3>
                             </a>
                             <p class="card-text">{{$post->summary}}</p>
                         </div>
@@ -88,7 +88,7 @@
         </div>
         <!-- similar videos related to category -->
         <div class="post__tags mb-4">
-            <h2 class="mb-3">Whatsapp status video Related to {{$post->title}}</h2>
+            <h2 class="mb-3 h4">Whatsapp status video Related to {{$post->title}}</h2>
             <p>Explore whatsapp status video related to {{$post->title}}. We hop you find best video status here.</p>
             <ul class="list-group list-group-horizontal flex-wrap">
                 <li class="list-group-item border-0 p-0">

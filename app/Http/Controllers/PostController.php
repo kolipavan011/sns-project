@@ -20,8 +20,8 @@ class PostController extends Controller
         return view('themes.postlist')->with([
             'posts' => $post,
             'SEOData' => new SEOData(
-                title: 'Explore Latest Whatsapp Status Videos - Storynstatus',
-                description: 'Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of words with others. Whatsapp Status Video to express your feeling and Status for share emotion',
+                title: 'Explore Latest Whatsapp Status Videos',
+                description: 'Explore our collection of Latest Whatsapp Status, find daily inspiration and share the power of videos with others. Whatsapp Status Video to express your feeling and share emotion',
             ),
         ]);
     }

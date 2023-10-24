@@ -19,7 +19,7 @@ class CategoryController extends Controller
             'posts' => $post,
             'SEOData' => new SEOData(
                 title: 'Explore Whatsapp Status Videos Categories',
-                description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima expedita quaerat officia eaque, molestias, neque adipisci aperiam officiis',
+                description: 'Explore our Categories of Latest Whatsapp Status, find daily inspiration and share the power of videos with others. Whatsapp Status Video to express your feeling and share emotion',
             ),
         ]);
     }
