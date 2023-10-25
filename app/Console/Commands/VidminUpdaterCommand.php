@@ -26,7 +26,19 @@ class VidminUpdaterCommand extends Command
      */
     public function handle(UpdateManager $updateManager)
     {
-        $this->info("Current Version : " . $updateManager->getLatestVersion());
-        $this->info($updateManager->isNewVersionAvailable() ? 'New Version Availabe' : 'Project is UptoDate');
+        $this->info("Current Version : " . $updateManager->getCurrentVersion());
+
+
+        if ($updateManager->isNewVersionAvailable()) {
+
+            $this->info('New Update Available : ' . $updateManager->getLatestVersion());
+
+            if ($this->confirm('Do you wish to continue?')) {
+                $this->updateToLatestVersion();
+                $this->info('App Updated to ' . $updateManager->getCurrentVersion());
+            }
+        } else {
+            $this->info('No Update Available');
+        }
     }
 }
