@@ -7,6 +7,17 @@
     {!! seo($SEOData) !!}
     <link rel="shortcut icon" href="{{ setting()->get('favicon','favicon.ico') }}" type="image/*">
     @vite('resources/sass/theme/theme.scss')
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5DK2HBJBQ2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'G-5DK2HBJBQ2');
+    </script>
 
 </head>
 
