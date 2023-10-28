@@ -30,16 +30,18 @@ use App\Http\Controllers\TagController;
 |
 */
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
-Route::get('/posts', [PostController::class, 'index']);
-Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.single');
-Route::get('/tags', [TagController::class, 'index']);
-Route::get('/tags/{slug}', [TagController::class, 'show'])->name('tag.single');
-Route::get('/category', [CategoryController::class, 'index']);
-Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('cat.single');
-Route::get('/pages/{slug}', [PageController::class, 'index'])->name('pages');
-Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
-Route::get('/sitemap/{slug}', [SitemapController::class, 'show'])->name('sitemap.single');
+Route::middleware('page-cache')->group(function () {
+   Route::get('/', [HomeController::class, 'home'])->name('home');
+   Route::get('/posts', [PostController::class, 'index']);
+   Route::get('/posts/{slug}', [PostController::class, 'show'])->name('posts.single');
+   Route::get('/tags', [TagController::class, 'index']);
+   Route::get('/tags/{slug}', [TagController::class, 'show'])->name('tag.single');
+   Route::get('/category', [CategoryController::class, 'index']);
+   Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('cat.single');
+   Route::get('/pages/{slug}', [PageController::class, 'index'])->name('pages');
+   Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+   Route::get('/sitemap/{slug}', [SitemapController::class, 'show'])->name('sitemap.single');
+});
 
 
 /*
@@ -48,7 +50,7 @@ Route::get('/sitemap/{slug}', [SitemapController::class, 'show'])->name('sitemap
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('vidmin')->middleware('doNotCacheResponse')->group(function () {
+Route::prefix('vidmin')->group(function () {
 
    // Auth Controller
    Route::get('login', [LoginController::class, 'create'])->name('vidmin.login');

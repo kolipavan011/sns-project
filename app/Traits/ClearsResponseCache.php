@@ -2,22 +2,22 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Artisan;
 
 trait ClearsResponseCache
 {
     public static function bootClearsResponseCache()
     {
         self::created(function () {
-            Cache::flush();
+            Artisan::call('page-cache:clear');
         });
 
         self::updated(function () {
-            Cache::flush();
+            Artisan::call('page-cache:clear');
         });
 
         self::deleted(function () {
-            Cache::flush();
+            Artisan::call('page-cache:clear');
         });
     }
 }

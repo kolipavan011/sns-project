@@ -20,7 +20,7 @@ class SitemapController extends Controller
         });
 
         return response()->view('themes.sitemap', compact('sitemaps'))
-            ->header('Content-Type', 'text/xml');
+            ->header('Content-Type', 'application/xml');
     }
 
     function show(string $slug)
@@ -52,7 +52,7 @@ class SitemapController extends Controller
         }
 
         return response()->view('themes.sitemap', compact('sitemaps'))
-            ->header('Content-Type', 'text/xml');
+            ->header('Content-Type', 'application/xml');
     }
 
     function posts()
