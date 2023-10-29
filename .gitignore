@@ -1,8 +1,8 @@
 /.phpunit.cache
 /node_modules
-/public/hot
-/public/page-cache
-/public/storage
+/public_html/hot
+/public_html/page-cache
+/public_html/storage
 /storage/*.key
 /storage/*
 /vendor
