@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home')}}">
-                    <img src="{{ setting()->get('logo') }}" alt="logo" style="height:30px;">
+                    <img width="190px" height="30px" src="{{ setting()->get('logo') }}" alt="logo" style="height:30px;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#websiteNavbar" aria-controls="websiteNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

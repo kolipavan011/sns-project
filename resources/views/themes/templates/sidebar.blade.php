@@ -56,8 +56,7 @@
     </div>
     <div class="sidebar__widget mb-4">
         <h2 class="widget__title mb-3">About</h2>
-        <ul class="list-group list-group-flush">
-            <p><a href="/">STORYNSTATUS.COM</a> - Best Collection Status in Hindi, Latest Whatsapp Status, Motivational Status Video, fullscreen Whatsapp Status, Whatsapp Love Images, Hindi Whatsapp Status, Good Morning status Video and Whatsapp Status wishes, Good Night Status video Wishes.</p>
+        <p><a href="/">STORYNSTATUS.COM</a> - Best Collection Status in Hindi, Latest Whatsapp Status, Motivational Status Video, fullscreen Whatsapp Status, Whatsapp Love Images, Hindi Whatsapp Status, Good Morning status Video and Whatsapp Status wishes, Good Night Status video Wishes.</p>
     </div>
     </div>
 </aside>

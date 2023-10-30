@@ -104,7 +104,7 @@ class MediaController extends Controller
             $type = explode('/', $mime)[0];
             $now = Carbon::now();
 
-            $path = "public/{$now->year}/11/{$name}" . time() . "{$ext}";
+            $path = "public/{$now->year}/{$now->month}/{$name}" . time() . ".{$ext}";
 
 
             $uploadedFile = Storage::put($path, $data);
