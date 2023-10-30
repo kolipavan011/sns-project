@@ -19,7 +19,9 @@ class SitemapController extends Controller
             ];
         });
 
-        return response()->view('themes.sitemap_index', compact('sitemaps'))
+        $home = public_path('template.xsl');
+
+        return response()->view('themes.sitemap_index', compact('sitemaps', 'home'))
             ->header('Content-Type', 'application/xml');
     }
 
@@ -28,6 +30,8 @@ class SitemapController extends Controller
         if (!in_array($slug, $this->sitemaps)) {
             return abort(404);
         }
+
+        $home = public_path('template.xsl');
 
         switch ($slug) {
             case 'pages.xml':
@@ -51,7 +55,7 @@ class SitemapController extends Controller
                 break;
         }
 
-        return response()->view('themes.sitemap_single', compact('sitemaps'))
+        return response()->view('themes.sitemap_single', compact('sitemaps', 'home'))
             ->header('Content-Type', 'application/xml');
     }
 
