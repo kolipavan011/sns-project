@@ -34,7 +34,7 @@ class VidminUpdaterCommand extends Command
             $this->info('New Update Available : ' . $updateManager->getLatestVersion());
 
             if ($this->confirm('Do you wish to continue?')) {
-                $this->updateToLatestVersion();
+                $updateManager->updateToLatestVersion();
                 $this->info('App Updated to ' . $updateManager->getCurrentVersion());
             }
         } else {

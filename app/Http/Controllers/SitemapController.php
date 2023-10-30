@@ -19,7 +19,7 @@ class SitemapController extends Controller
             ];
         });
 
-        return response()->view('themes.sitemap', compact('sitemaps'))
+        return response()->view('themes.sitemap_index', compact('sitemaps'))
             ->header('Content-Type', 'application/xml');
     }
 
@@ -51,7 +51,7 @@ class SitemapController extends Controller
                 break;
         }
 
-        return response()->view('themes.sitemap', compact('sitemaps'))
+        return response()->view('themes.sitemap_single', compact('sitemaps'))
             ->header('Content-Type', 'application/xml');
     }
 

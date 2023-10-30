@@ -12,7 +12,6 @@ use App\Models\Post;
 use App\Models\Tag;
 use Ramsey\Uuid\Uuid;
 use App\Http\Requests\PostRequest;
-use Spatie\ResponseCache\Facades\ResponseCache;
 
 class PostController extends Controller
 {
@@ -105,8 +104,6 @@ class PostController extends Controller
         $posts->videos()
             ->sync($videos);
 
-        ResponseCache::clear();
-
         return response()->json(['msg' => 'success']);
     }
 
@@ -120,8 +117,6 @@ class PostController extends Controller
 
             $posts->videos()
                 ->detach($videoID);
-
-            ResponseCache::clear();
         }
 
         return response()->json(['msg' => 'success']);
