@@ -81,7 +81,7 @@ export default {
         let ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, w, h);
         
-        let dataURI = canvas.toDataURL('image/webp');        
+        let dataURI = canvas.toDataURL('image/webp', 0.7);        
         this.$toast.info('Capturing Thumbnail ...');
 
         if (dataURI.length < 125) {
