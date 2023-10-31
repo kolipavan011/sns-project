@@ -13,14 +13,16 @@
                     </ol>
                 </nav>
                 <h1 class="mb-4">{{ $post->title }}</h1>
+                <div class="mb-3">
+                    <ul class="list-group list-group-horizontal flex-wrap">
+                        <li class="list-group-item border-0 p-0">
+                            @foreach ($post->category as $cat)
+                            <a rel="tag" href="{{ route('cat.single',['slug'=>$cat->slug]) }}" class="badge bg-primary mb-1">{{$cat->title}}</a>
+                            @endforeach
+                        </li>
+                    </ul>
+                </div>
                 <p>{{ $post->summary }}</p>
-                <ul class="list-group list-group-horizontal flex-wrap">
-                    <li class="list-group-item border-0 p-0">
-                        @foreach ($post->category as $cat)
-                        <a rel="tag" href="{{ route('cat.single',['slug'=>$cat->slug]) }}" class="badge bg-primary mb-1">{{$cat->title}}</a>
-                        @endforeach
-                    </li>
-                </ul>
             </header>
         </div>
         <div class="videos__list my-4">

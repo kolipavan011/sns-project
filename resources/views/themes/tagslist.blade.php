@@ -18,19 +18,22 @@
         <div class="row @if(count($posts) > 0) d-flex row-cols-1 g-3 row-cols-md-2 @endif">
             @forelse ($posts as $post)
             <div class="col">
-                <div class="card">
-                    @isset($post->featured_image)
-                    <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                        <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
-                    </a>
-                    @endisset
-                    <div class="card-body">
-                        <a class="text-decoration-none text-dark" href="{{ route('tag.single',['slug'=> $post->slug]) }}">
-                            <h2 class="card-title h4">{{$post->meta['title']}}</h2>
+                <article id="post-{{$post->id}}">
+                    <div class="card">
+                        @isset($post->featured_image)
+                        <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
+                            <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
                         </a>
-                        <p class="card-text">{{$post->summary}}</p>
+                        @endisset
+                        <div class="card-body">
+                            <header>
+                                <a class="text-decoration-none text-dark" href="{{ route('tag.single',['slug'=> $post->slug]) }}">
+                                    <h2 class="card-title h4">{{$post->meta['title']}}</h2>
+                                </a>
+                            </header>
+                        </div>
                     </div>
-                </div>
+                </article>
             </div>
             @empty
             <div class="col-12">
