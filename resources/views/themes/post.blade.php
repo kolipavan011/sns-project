@@ -81,7 +81,6 @@
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h4">{{$post->title}}</h3>
                             </a>
-                            <p class="card-text">{{$post->summary}}</p>
                         </div>
                     </div>
                 </div>
@@ -112,7 +111,6 @@
                             <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
                                 <h3 class="card-title h4">{{$post->title}}</h3>
                             </a>
-                            <p class="card-text">{{$post->summary}}</p>
                         </div>
                     </div>
                 </div>

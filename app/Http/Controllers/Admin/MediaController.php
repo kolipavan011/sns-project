@@ -57,7 +57,7 @@ class MediaController extends Controller
         // are not supported at this time
         $file = reset($payload);
 
-        $path = $file->storeAs('public/' . $now->year . '/' . $now->month, $file->getClientOriginalName());
+        $path = $file->storeAs('public/' . $now->year . '/' . $now->month, str_replace(array('(', ')', " "), '', $file->getClientOriginalName()));
 
         if (!$path) {
             return response()->json(['massage' => 'failed to upload']);
@@ -89,7 +89,7 @@ class MediaController extends Controller
         if (request()->exists('filepond')) {
 
             $image = request()->input('filepond', '');
-            $name = request()->input('filename', time());
+            $name = str_replace(array('(', ')', " "), '', request()->input('filename', time()));
 
             if (strlen($image) < 128) {
                 return response()->json(null, 400);

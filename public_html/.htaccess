@@ -26,7 +26,8 @@
     RewriteRule . page-cache%{REQUEST_URI}.xml [L]
 
     # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # Removes index.php from ExpressionEngine URLs  
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [PT,L]
 </IfModule>
