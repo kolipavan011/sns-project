@@ -69,17 +69,17 @@
                 </li>
             </ul>
             <div class="row d-flex row-cols-1 row-cols-md-2 g-3 mt-2">
-                @foreach ($relatedTag as $post)
+                @foreach ($relatedTag as $tag)
                 <div class="col">
                     <div class="card">
-                        @isset($post->featured_image)
-                        <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                            <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
+                        @isset($tag->featured_image)
+                        <a href="{{ route('posts.single',['slug'=> $tag->slug]) }}">
+                            <img width="300px" height="200px" src="{{ asset($tag->featured_image) }}" class="card-img-top featured__image" alt="{{ $tag->title }}">
                         </a>
                         @endisset
                         <div class="card-body">
-                            <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                                <h3 class="card-title h4">{{$post->title}}</h3>
+                            <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $tag->slug]) }}">
+                                <h3 class="card-title h4">{{$tag->title}}</h3>
                             </a>
                         </div>
                     </div>
@@ -99,17 +99,17 @@
                 </li>
             </ul>
             <div class="row d-flex row-cols-1 row-cols-md-2 g-3 mt-2">
-                @foreach ($relatedCat as $post)
+                @foreach ($relatedCat as $category)
                 <div class="col">
                     <div class="card">
-                        @isset($post->featured_image)
-                        <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                            <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
+                        @isset($category->featured_image)
+                        <a href="{{ route('posts.single',['slug'=> $category->slug]) }}">
+                            <img width="300px" height="200px" src="{{ asset($category->featured_image) }}" class="card-img-top featured__image" alt="{{ $category->title }}">
                         </a>
                         @endisset
                         <div class="card-body">
-                            <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                                <h3 class="card-title h4">{{$post->title}}</h3>
+                            <a class="text-decoration-none text-dark" href="{{ route('posts.single',['slug'=> $category->slug]) }}">
+                                <h3 class="card-title h4">{{$category->title}}</h3>
                             </a>
                         </div>
                     </div>
