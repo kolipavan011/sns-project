@@ -26,7 +26,7 @@
                     <div class="card">
                         @isset($post->featured_image)
                         <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                            <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
+                            <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}" loading="lazy">
                         </a>
                         @endisset
                         <div class="card-body">
@@ -64,7 +64,7 @@
     <h2 class="h4">Whatsapp Status videos for daily</h2>
     <p>Motivational status video are effective and also helpful for us. Inspirational Status Video and sayings have brilliant potential to change the manner we feel about life.</p>
     <br>
-    <p>Indian people are always joyful in all festivals celebrations so they find most of the related best whatsapp status video. So mainly we baked this whole content for you as useful blog-post. Keep your all cheers with us and find good free whatsapp status video download at <a href="storynstatus.com">storynstatus.com</a></p>
+    <p>Indian people are always joyful in all festivals celebrations so they find most of the related best whatsapp status video. So mainly we baked this whole content for you as useful blog-post. Keep your all cheers with us and find good free whatsapp status video download at <a href="https://storynstatus.com">storynstatus.com</a></p>
     <p>This website isn't Affiliated to Whatsapp Inc. in any manner. There are no any copyrights for sharing or set a status video to social media applications. So, freely share whatsapp video status with your friends, lovers, etc and enjoy!</p>
 </div>
 @endsection

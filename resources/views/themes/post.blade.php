@@ -31,7 +31,7 @@
                 <div class="col">
                     <div class="card mb-4">
                         <figure class="mb-0">
-                            <video class="article__video bg-light" src="{{ $video->path }}" controls preload="none" poster="{{ $video->preview }}"></video>
+                            <video class="article__video bg-light" src="{{ $video->path }}" controls preload="none" poster="{{ $video->preview }}" posterloading="lazy"></video>
                         </figure>
                         <div class="card-body">
                             <a download class="btn btn-primary mb-3" href="{{ $video->path }}">Download Status Video</a>
@@ -74,7 +74,7 @@
                     <div class="card">
                         @isset($tag->featured_image)
                         <a href="{{ route('posts.single',['slug'=> $tag->slug]) }}">
-                            <img width="300px" height="200px" src="{{ asset($tag->featured_image) }}" class="card-img-top featured__image" alt="{{ $tag->title }}">
+                            <img width="300px" height="200px" src="{{ asset($tag->featured_image) }}" class="card-img-top featured__image" alt="{{ $tag->title }}" loading="lazy">
                         </a>
                         @endisset
                         <div class="card-body">
@@ -104,7 +104,7 @@
                     <div class="card">
                         @isset($category->featured_image)
                         <a href="{{ route('posts.single',['slug'=> $category->slug]) }}">
-                            <img width="300px" height="200px" src="{{ asset($category->featured_image) }}" class="card-img-top featured__image" alt="{{ $category->title }}">
+                            <img width="300px" height="200px" src="{{ asset($category->featured_image) }}" class="card-img-top featured__image" alt="{{ $category->title }}" loading="lazy">
                         </a>
                         @endisset
                         <div class="card-body">

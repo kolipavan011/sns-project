@@ -24,7 +24,7 @@
                         <div class="card">
                             @isset($post->featured_image)
                             <a href="{{ route('posts.single',['slug'=> $post->slug]) }}">
-                                <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}">
+                                <img width="300px" height="200px" src="{{ asset($post->featured_image) }}" class="card-img-top featured__image" alt="{{ $post->title }}" loading="lazy">
                             </a>
                             @endisset
                             <div class="card-body">
