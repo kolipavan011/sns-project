@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <div class="input-group mb-5">
                         <input type="text" class="form-control" placeholder="Keyword .." aria-describedby="button-addon2" v-model="keyword">
-                        <button class="btn btn-primary" type="button" @click="fetchList()">Search</button>
+                        <button class="btn btn-primary" type="button" @click="searchVideo()">Search</button>
                     </div>
                 </div>
             </div>
@@ -89,6 +89,11 @@ export default {
         }
     },
     methods: {
+        searchVideo() {
+            this.pages = [];
+            this.currentPage = 0;
+            this.fetchList();
+        },
         fetchList(params = {}) {
             this.loading = true;
             this.items = [];
