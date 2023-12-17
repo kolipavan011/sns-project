@@ -18,6 +18,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\YtdownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,9 @@ Route::prefix('vidmin')->group(function () {
             Route::get('/', 'index');
             Route::post('store', 'store');
          });
+
+         // Ytdownloader route
+         Route::get('/ytdownload/{id}', [YtdownloadController::class, 'index']);
       });
 
       // Catch-all route...

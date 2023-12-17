@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.1",
         "alaouy/youtube": "*",
+        "athlon1600/youtube-downloader": "4.0",
         "drh2so4/thumbnail": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",

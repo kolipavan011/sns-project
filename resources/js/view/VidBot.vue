@@ -22,7 +22,7 @@
                                     <p class="card-text small">{{ item.snippet.title }}</p>
                                 </div>
                                 <div class="col-3">
-                                    <button class="btn btn-primary d-block fw-bold float-end" type="button">+</button>
+                                    <button :class="item.class" class="btn btn-primary d-block fw-bold float-end" type="button" @click="addVideo(item)">{{ item.class == 'btn-warning' ? '@' : '+' }}</button>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,7 @@ export default {
     },
     data() {
         return {
-            keyword: "",
+            keyword: "whatsapp hanuman status video",
             items: [],
             pages: [],
             loading: false,
@@ -104,7 +104,10 @@ export default {
                 .then(data => {
                     this.pages.push(data);
                     this.currentPage = this.pages.length - 1;
-                    this.items = this.pages[this.currentPage].items;
+                    this.items = this.pages[this.currentPage].items.map(value => {
+                        value.class = 'btn-primary';
+                        return value;
+                    });
                     this.loading = false;
                 }, err => {
                     this.loading = false;
@@ -129,6 +132,20 @@ export default {
             if (page === this.currentPage) return;
             this.items = this.pages[page].items;
             this.currentPage = page;
+        },
+        addVideo(item) {
+            item.class = 'btn-warning';
+            this.request()
+                .get('/ytdownload/' + item.id.videoId)
+                .then(({ data }) => {
+                    item.class = 'btn-info';
+                    alert('Video Added');
+                })
+                .catch(err => {
+                    item.class = 'btn-primary';
+                    console.log(err);
+                    alert(err);
+                });
         }
 
     }
