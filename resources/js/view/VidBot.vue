@@ -4,13 +4,63 @@
             <PageHeader title="Vidbot"></PageHeader>
         </template>
         <template v-slot:content>
-            <!-- No Media Found -->
-            <div class="d-flex justify-content-center align-items-center mb-5">
-                <div class="card p-5">
-                    <div class="card-body text-center">
-                    <h5 class="card-title">No Media Found</h5>
-                    <p class="card-text text-muted">Let`s upload media here. you can find useful video, images and much more here. To upload media file click on upload button and select file you want to upload ..!</p>
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group mb-5">
+                        <input type="text" class="form-control" placeholder="Keyword .." aria-describedby="button-addon2" v-model="keyword">
+                        <button class="btn btn-primary" type="button" @click="fetchList()">Search</button>
                     </div>
+                </div>
+            </div>
+            <div v-show="!loading" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+                <div class="col" v-for="(item, index) in items" :key="index">
+                    <div class="card">
+                        <img :src="item.snippet.thumbnails.high.url" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-9">
+                                    <p class="card-text small">{{ item.snippet.title }}</p>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-primary d-block fw-bold float-end" type="button">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-show="loading" class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+                <div class="col" v-for="item in [1,2,3,4,5,6]">
+                    <div class="card">
+                        <div class="placeholder-glow">
+                            <div class="placeholder col-12" style="height: 200px;"></div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title placeholder-glow">
+                                <span class="placeholder col-12"></span>
+                            </h5>
+                            <p class="card-text placeholder-glow">
+                                <span class="placeholder col-12"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" v-show="currentPage !== 0 && pages.length > 0">
+                                <a class="page-link" href="#" @click.prevent="prevPage">Previous</a>
+                            </li>
+                            <li class="page-item" v-for="(item, index) in pages" :key="index">
+                                <a class="page-link" href="#" @click="toPage(index)">{{ index + 1 }}</a>
+                            </li>
+                            <li class="page-item" v-show="pages.length > 0">
+                                <a class="page-link" href="#" @click.prevent="nextPage">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </template>
@@ -19,6 +69,9 @@
 <script>
 import PageMain from '../components/PageMain.vue';
 import PageHeader from '../components/PageHeader.vue';
+import { YoutubeDataAPI } from 'youtube-v3-api/dist';
+import extend from "lodash/extend";
+const youtube = new YoutubeDataAPI('AIzaSyBTX1j2o0wV9YC9c9VORGEC6LuQOyxiEgc');
 
 export default {
     name: 'PostList',
@@ -27,10 +80,52 @@ export default {
         PageHeader,
     },
     data() {
-        return {}
+        return {
+            keyword: "",
+            items: [],
+            pages: [],
+            loading: false,
+            currentPage : 0
+        }
     },
-    mounted() {
-        console.log(this.$route.name)
+    methods: {
+        fetchList(params = {}) {
+            this.loading = true;
+            this.items = [];
+
+            let parts = extend({ type: 'video' }, params);
+
+            youtube.searchAll(this.keyword, 50, parts)
+                .then(data => {
+                    this.pages.push(data);
+                    this.currentPage = this.pages.length - 1;
+                    this.items = this.pages[this.currentPage].items;
+                    this.loading = false;
+                }, err => {
+                    this.loading = false;
+                    console.log(err);
+                })
+        },
+        nextPage() {
+            if ((this.currentPage + 1) < this.pages.length) {
+                this.toPage(this.currentPage + 1);
+                return false;
+            }
+            let token = this.pages[this.currentPage].nextPageToken;
+            this.fetchList({ pageToken: token });
+        },
+        prevPage() {
+            this.loading = true;
+            this.currentPage = this.currentPage - 1;
+            this.items = this.pages[this.currentPage].items;
+            this.loading = false;
+        },
+        toPage(page) {
+            if (page === this.currentPage) return;
+            this.items = this.pages[page].items;
+            this.currentPage = page;
+        }
+
     }
 }
 </script>
