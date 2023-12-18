@@ -120,7 +120,7 @@ Route::prefix('vidmin')->group(function () {
          });
 
          // Ytdownloader route
-         Route::get('/ytdownload/{id}', [YtdownloadController::class, 'index']);
+         Route::post('/ytdownload', [YtdownloadController::class, 'index']);
       });
 
       // Catch-all route...

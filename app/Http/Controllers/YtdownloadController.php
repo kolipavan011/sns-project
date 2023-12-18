@@ -14,12 +14,13 @@ use Ramsey\Uuid\Uuid;
 
 class YtdownloadController extends Controller
 {
-    function index(string $id): JsonResponse
+    function index(): JsonResponse
     {
+        $params = request()->all();
         $youtube = new YouTubeDownloader();
 
         try {
-            $downloadOptions = $youtube->getDownloadLinks("https://www.youtube.com/watch?v=" . $id);
+            $downloadOptions = $youtube->getDownloadLinks("https://www.youtube.com/watch?v=" . $params['id']);
 
             if ($downloadOptions->getAllFormats()) {
                 $formats = $downloadOptions->getCombinedFormats();
@@ -28,7 +29,7 @@ class YtdownloadController extends Controller
                     return strpos($format->mimeType, 'video/mp4') === 0 && !empty($format->audioQuality);
                 });
 
-                $this->saveVideo($id, $video[0]->url);
+                $this->saveVideo($params['id'], $video[0]->url, $params['keyword'], $params['title']);
                 return response()->json(['massage' => 'success']);
             } else {
                 return response()->json(['massage' => 'No links found'], 400);
@@ -38,21 +39,19 @@ class YtdownloadController extends Controller
         }
     }
 
-    private function saveVideo(string $id, string $url): Bool
+    private function saveVideo(string $id, string $url, string $keyword, string $title): Bool
     {
         $now = Carbon::now();
         $path = "public/{$now->year}/{$now->month}/";
 
         $imgPath = "{$path}{$id}.jpg";
-        $videoPath = "{$path}{$id}.mp4";
+
 
         Storage::put($imgPath, file_get_contents('http://img.youtube.com/vi/' . $id . '/hqdefault.jpg'));
 
-        Storage::put($videoPath, file_get_contents($url));
-
         File::create([
             'id' => Uuid::uuid4()->toString(),
-            'name' => "{$id}",
+            'name' => $keyword . ' image-' . time(),
             'preview' => Storage::url($imgPath),
             'path' => Storage::url($imgPath),
             'type' => 'image',
@@ -63,9 +62,16 @@ class YtdownloadController extends Controller
             ]
         ])->save();
 
+        // Get video from youtube and add
+
+        $keyword = str_replace(" ", "-", "{$keyword} " . time());
+        $videoPath = "{$path}{$keyword}.mp4";
+
+        Storage::put($videoPath, file_get_contents($url));
+
         File::create([
             'id' => Uuid::uuid4()->toString(),
-            'name' => "{$id} Video",
+            'name' => $title,
             'preview' => Storage::url($imgPath),
             'path' => Storage::url($videoPath),
             'type' => 'video',
