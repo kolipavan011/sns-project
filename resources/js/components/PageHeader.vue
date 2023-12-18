@@ -20,6 +20,10 @@
                     <slot name="option"></slot>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="#" @click="logout">Logout</a></li>
+                    <li><hr class="dropdown-divider d-md-none"></li>
+                    <li v-for="item in list" :key="item" class="d-md-none">
+                        <router-link :to="{ name: item }" class="dropdown-item">{{ item }}</router-link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -35,7 +39,8 @@ export default {
     data() {
         return {
             dropdown: null,
-            user:'',
+            user: '',
+            list: ['dashboard', 'posts', 'media', 'category', 'tags', 'vidbot', 'setting']
         }
     },
     methods: {
