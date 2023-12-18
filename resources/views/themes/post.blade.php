@@ -22,7 +22,7 @@
                         </li>
                     </ul>
                 </div>
-                <p>{{ $post->summary }}</p>
+                <p>{!! $post->summary !!}</p>
             </header>
         </div>
         <div class="videos__list my-4">

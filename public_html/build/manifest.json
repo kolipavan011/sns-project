@@ -18,7 +18,7 @@
     "css": [
       "assets/app-728f2422.css"
     ],
-    "file": "assets/app-92e970b3.js",
+    "file": "assets/app-466b538a.js",
     "imports": [
       "_selector-engine-55adf8d4.js"
     ],
@@ -26,7 +26,7 @@
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-9a84eae0.css",
+    "file": "assets/app-44b7cd7c.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   },
