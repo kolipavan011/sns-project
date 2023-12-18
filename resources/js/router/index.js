@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import routes from './routes';
+import NProgress from 'nprogress';
+
+NProgress.configure({
+    showSpinner: false,
+    easing: 'ease',
+    speed: 300,
+});
 
 const router = new createRouter({
     history: createWebHistory('vidmin'),

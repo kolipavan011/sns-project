@@ -71,6 +71,7 @@ import PageMain from '../components/PageMain.vue';
 import PageHeader from '../components/PageHeader.vue';
 import { YoutubeDataAPI } from 'youtube-v3-api/dist';
 import extend from "lodash/extend";
+import NProgress from "nprogress";
 const youtube = new YoutubeDataAPI('AIzaSyBTX1j2o0wV9YC9c9VORGEC6LuQOyxiEgc');
 
 export default {
@@ -135,16 +136,19 @@ export default {
         },
         addVideo(item) {
             item.class = 'btn-warning';
+            NProgress.start();
             this.request()
                 .get('/ytdownload/' + item.id.videoId)
                 .then(({ data }) => {
                     item.class = 'btn-info';
-                    alert('Video Added');
+                    NProgress.done();
+                    this.$toast.success('Video Added ..!');
                 })
                 .catch(err => {
                     item.class = 'btn-primary';
                     console.log(err);
-                    alert(err);
+                    NProgress.done();
+                    this.$toast.error('Something wrong happened ..!');
                 });
         }
 
